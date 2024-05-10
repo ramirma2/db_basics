@@ -1,8 +1,10 @@
 import {useState} from 'react';
+import ClassesTable from '../components/ClassesTable';
+
 
 function ClassesPage(){
 
-    const [showAddClass, setShowAddClass] = useState(false);
+   
     const [name, setName] = useState("");
     const [duration, setDuration] = useState("");
     const [capacity, setCapacity] = useState("");
@@ -12,38 +14,11 @@ function ClassesPage(){
         <section>
             <div>
                 <h2>Manage classes offered</h2>
+                <ClassesTable/>
 
-
-                <table className="classes-list">
-                    <tr>
-                        <th>Class Name</th>
-                        <th>Duration in minutes</th>
-                        <th>Capacity</th>
-                        <th>Description</th>
-                        <th>Edit Class</th>
-                        <th>Delete Class</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
             </div>
-
-            
-            <form>
+           
+            <form className='new-class'>
                 <label>Class Name:</label>
                 <input type="text" value={name} 
                 onChange={e=> setName(e.target.value)} />

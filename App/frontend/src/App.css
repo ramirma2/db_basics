@@ -1,10 +1,142 @@
-html {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+body {
+  background-color: #f5f4f5;
+
 }
 
-html li {
-  list-style-type: none;
+
+.App {
+  text-align: center;
+  font-family: "Tajawal", sans-serif;
+  font-style: normal;
+
+}
+
+.app-nav {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  background-color: #EBEAEC;
+}
+
+
+.logo {
+  font-family: "Noto Znamenny Musical Notation", sans-serif;
+  text-align: left;
+  padding-left: 50px;
+  padding-top: 15px;
+  margin-right: 150px;
+  color: #EAAC8B
+}
+
+.app-nav a {
+  padding-bottom: 15px;
+  padding-right: 100px;
+  font-size: 1.25em;
+  color: #3D3A40;
+  text-decoration: none;
+}
+
+.home_main {
+  display: flex;
+  height: 75vh;
+  flex-wrap: wrap;
+
+}
+
+.home_main h1 {
+  flex-grow: 2;
+  padding: 35px;
+  font-size: 2.5em;
+  align-content: center;
+}
+
+.main-bubble {
+  margin: 15px;
+  margin-left: 40px;
+  margin-right: 40px;
+  width: 200px;
+  align-content: center;
+}
+
+.home_main a {
+  align-self: center;
+  margin-bottom: 50px;
+  margin-left: 100px;
+  text-align: center;
+  background-color: #B56576;
+  color: white;
+  text-decoration: none;
+  width: 175px;
+  padding: 20px;
+  border-radius: 20px;
+  font-size: 1em;
+  font-weight: 500
+}
+
+.default {
+  cursor: default;
+}
+
+.small-text {
+  font-size: .70em
+}
+
+button {
+  background-color: #B56576;
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
+  font-size: 1em;
+  font-weight: 500;
+  border: none;
+  width: 175px;
+  margin: 25px;
+}
+
+/* input {
+  height: 30px;
+  width: 300px;
+  margin: 25px 10px;
+  padding: 5px 10px;
+}
+
+label {
+  padding: 10px;
+  padding-right:5px;
+  text-align: left;
+  
+} */
+
+/* fieldset {
+  margin-top: 15px;
+} */
+
+form {
+  /* width: 65vw; */
+  margin: auto;
+  margin-top: 50px
+}
+
+table {
+	border-collapse: collapse; 
+  margin:auto
+}
+
+table td {
+	padding: 15px;
+  border: 1px solid #54585d;
+
+}
+table thead tr {
+	background-color: #54585d;
+	color: #ffffff;
+	font-weight: bold;
+	font-size: 1em;
+	border: 1px solid #54585d;
+
+}
+
+th{
+  padding: 15px;
 }

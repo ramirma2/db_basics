@@ -3,9 +3,9 @@ import { MdLocalConvenienceStore } from "react-icons/md";
 
 const Navbar = () => {
   return (
-    <header>
+    <header className="app-nav">
 
-      <h1>Strength Studio</h1>
+      <h1 className="logo">Strength Studio</h1>
       <nav>
             <Link to="/">Home</Link>
             <Link to="/classes">Classes</Link>

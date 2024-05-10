@@ -1,8 +1,10 @@
 import {useState} from 'react';
+import { MdEdit } from "react-icons/md";
+import SchedulesTable from "../components/SchedulesTable";
 
 function SchedulesPage(){
 
-    const [className, setClassName]=useState("");
+    const [currClassName, setClassName]=useState("");
     const [date, setDate]=useState("");
     const [dayOfTheWeek, setDayOfTheWeek]=useState("");
     const [startTime, setStartTime]=useState("");
@@ -15,45 +17,14 @@ function SchedulesPage(){
             <div>
                 <h2>Manage our classes schedule</h2>
 
-
-                <table className="schedule-list">
-                    <tr>
-                        <th>Class Name</th>
-                        <th>Date</th>
-                        <th>Day of the Week</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Instructor</th>
-                        <th>Current Status</th>
-                        <th>Edit Schedule</th>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
+                <SchedulesTable/>
+                
             </div>
 
             
             <form>
                 <label>Class Name:</label>
-                <input type="text" value={className} 
+                <input type="text" value={currClassName} 
                 onChange={e=> setClassName(e.target.value)} />
                 <label>Date:</label>
                 <input type="date" value={date} 
@@ -79,7 +50,7 @@ function SchedulesPage(){
                     onClick={e=>{
                         e.preventDefault();
                     }}
-                >Schedule Class</button>
+                >Add to Schedule</button>
             </form>
         </section>
     )
