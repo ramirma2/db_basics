@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom';
 import { MdEdit, MdOutlineEdit } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";
 import { MdAdd } from 'react-icons/md';
+import { MdOutlineList } from "react-icons/md";
 
 function ScheduleSingle({schedule}){
 
@@ -17,6 +18,7 @@ function ScheduleSingle({schedule}){
             <td>{schedule.status}</td>
             <td> <Link to="/update-schedule" ><MdEdit/></Link></td>
             <td> <Link to="/schedule-class" ><MdAdd/></Link></td>
+            <td> <Link to="/scheduled-members" ><MdOutlineList /></Link></td>
             
         </tr>
     )

@@ -1,5 +1,6 @@
 import ScheduleSingle from '../components/ScheduleSingle';
 
+
 function SchedulesTable(){
 
     const mySchedules=[
@@ -21,6 +22,7 @@ function SchedulesTable(){
                     <th>Status</th>
                     <th>Edit Schedule</th>
                     <th>Sign Up</th>
+                    <th>Enrolled list</th>
                 </tr>
 
             </thead>

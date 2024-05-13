@@ -11,6 +11,8 @@ import UpdateMemberPage from "./pages/UpdateMemberPage";
 import UpdateInstructorPage from "./pages/UpdateInstructorPage";
 import UpdateSchedulePage from "./pages/UpdateSchedulePage";
 import ScheduleClassPage from "./pages/ScheduleClassPage";
+import MemberClassesPage from "./pages/MemberClassesPage";
+import ScheduledMembersPage from "./pages/ScheduledMembersPage";
 
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
         <Route path="/update-instructor" element={<UpdateInstructorPage />} />
         <Route path="/update-schedule" element={<UpdateSchedulePage />} />
         <Route path="/schedule-class" element={<ScheduleClassPage />} />
+        <Route path="/member-classes" element={<MemberClassesPage />} />
+        <Route path="/scheduled-members" element={<ScheduledMembersPage />} />
 
 
       </Routes>

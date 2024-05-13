@@ -1,8 +1,9 @@
 
-
 import {Link} from 'react-router-dom';
 import { MdEdit, MdOutlineEdit } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";
+import { MdOutlineSchedule } from "react-icons/md";
+import { MdFitnessCenter } from "react-icons/md";
 
 
 function MemberSingle({member}){
@@ -15,6 +16,8 @@ function MemberSingle({member}){
             <td>{member.birthdate}</td>
             <td>{member.member_since}</td>
             <td>{member.membership_exp}</td>
+            <td>
+                <Link to="/member-classes" ><MdFitnessCenter/></Link></td>
             <td>
                 <Link to="/update-member" ><MdEdit/></Link></td>
             <td><MdDeleteForever/></td>

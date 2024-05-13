@@ -1,6 +1,7 @@
 import MemberSingle from "./MemberSingle";
 
 
+
 function MembersTable(){
 
     const myMembers=[
@@ -19,6 +20,7 @@ function MembersTable(){
             <th>Date Of Birth</th>
             <th>Member Since</th>
             <th>Membership Expires</th>
+            <th>Enrolled Classes</th>
             <th>Edit Member</th>
             <th>Delete Member</th>
         </tr>
