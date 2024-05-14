@@ -1,12 +1,22 @@
 import {useState} from 'react';
 
 
-function UpdateInstructorPage(){
+function UpdateInstructorPage({classes}){
     const [firstName, setFirstName]=useState("");
     const [lastName, setLastName]=useState("");
     const [email, setEmail]=useState("");
     const [phoneNumber, setPhoneNumber]=useState("");
     const [preferredName, setPreferredName] = useState("");
+    const [checkedState, setCheckedState] = useState(
+        new Array(classes.length).fill(false)
+    );
+
+    const handleOnChange = (position) => {
+        const updatedCheckedState = checkedState.map((item, i)=>
+        i === position ? !item :item
+        );
+        setCheckedState(updatedCheckedState);
+    }
 
     return(
         <form>
@@ -25,6 +35,24 @@ function UpdateInstructorPage(){
         <label>Phone Number:</label>
         <input type="text" value={phoneNumber} 
         onChange={e=> setPhoneNumber(e.target.value)} />
+        <fieldset>
+            <legend>Classes:</legend>
+                {
+                    classes.map((one_class, index)=>{
+                        return (
+                            <div className="class-checkbox" key={index}>
+                                <input type="checkbox" id={`custom-checkbox-${index}`} 
+                                name={one_class.name} value={one_class.class_id} 
+                                checked={checkedState[index]}
+                                onChange={ ()=> handleOnChange(index)}
+                                />
+                                <label htmlFor={`custom-checkbox-${index}`}>{one_class.name} </label><br></br>
+                            </div>
+
+                        )
+                    })
+                }
+            </fieldset>
         <button
             onClick={e=>{
                 e.preventDefault();
