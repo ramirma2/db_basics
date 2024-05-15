@@ -22,7 +22,7 @@ function ScheduleClassPage() {
             <label>Start Time:</label>
             <input type="datetime" value={startTime}
                 onChange={e => setStartTime(e.target.value)} />
-            <label>Member:</label>
+            <label>Member email:</label>
             <input type="text" value={member_email}
                 onChange={e => setMemberEmail(e.target.value)} />
             <button

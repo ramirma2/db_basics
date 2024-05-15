@@ -12,11 +12,11 @@ function UpdateClassPage(){
             <label>Class Name:</label>
             <input type="text" value={name} 
             onChange={e=> setName(e.target.value)} />
-            <label>Duration in minutes:</label>
-            <input type="text" value={duration} 
+            <label className='small-label'>Duration in minutes:</label>
+            <input type="text" value={duration} className='small-input'
             onChange={e=> setDuration(e.target.value)} />
-            <label>Capacity:</label>
-            <input type="text" value={capacity} 
+            <label className='small-label'>Capacity:</label>
+            <input type="text" value={capacity} className='small-input'
             onChange={e=> setCapacity(e.target.value)} />
             <label>Description:</label>
             <input type="textarea" value={description} 

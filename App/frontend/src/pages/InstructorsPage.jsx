@@ -26,7 +26,7 @@ function InstructorsPage(){
             <input type="text" value={lastName} 
             onChange={e=> setLastName(e.target.value)} />
             <label>Preferred Name:</label>
-            <input type="date" value={preferredName} 
+            <input type="text" value={preferredName} 
             onChange={e=> setPreferredName(e.target.value)} />
             <label>Email:</label>
             <input type="text" value={email} 
@@ -40,7 +40,7 @@ function InstructorsPage(){
                 onClick={e=>{
                     e.preventDefault();
                 }}
-            >Add New Instructor</button>
+            >Add Instructor</button>
         </form>
 
         </section>  
