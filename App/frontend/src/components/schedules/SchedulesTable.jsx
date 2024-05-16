@@ -1,14 +1,14 @@
-import ScheduleSingle from '../components/ScheduleSingle';
+import ScheduleSingle from './ScheduleSingle';
 
 
-function SchedulesTable(){
+function SchedulesTable({ schedules }) {
 
-    const mySchedules=[
-        {schedule_id : 1, class_name : "Strength", date : '2024-05-01', start_time : '6:00am', end_time : '6:50am', day_of_the_week : 'M', instructor : 'Johnny', at_capacity : "False", status : 'open'},
-        {schedule_id : 2, class_name : "Strength 1", date : '2024-05-01', start_time : '9:00am', end_time : '9:50am', day_of_the_week : 'M', instructor : 'Johnny', at_capacity : "False", status : 'open'}
+    const mySchedules = [
+        { schedule_id: 1, class_name: "Strength", date: '2024-05-01', start_time: '6:00am', end_time: '6:50am', day_of_the_week: 'M', instructor: 'Johnny', at_capacity: "False", status: 'open' },
+        { schedule_id: 2, class_name: "Strength 1", date: '2024-05-01', start_time: '9:00am', end_time: '9:50am', day_of_the_week: 'M', instructor: 'Johnny', at_capacity: "False", status: 'open' }
     ]
 
-    return(
+    return (
         <table className="schedule-list">
             <thead>
                 <tr>
@@ -27,7 +27,7 @@ function SchedulesTable(){
 
             </thead>
             <tbody>
-                {mySchedules.map((sch, i)=><ScheduleSingle schedule={sch} key={i}/>)}
+                {schedules.map((sch, i) => <ScheduleSingle schedule={sch} key={i} />)}
             </tbody>
         </table>
 

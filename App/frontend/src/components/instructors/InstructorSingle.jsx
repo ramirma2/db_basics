@@ -5,9 +5,9 @@ import { MdDeleteForever } from "react-icons/md";
 function InstructorSingle({instructor}){
     return(
         <tr>
+            <td>{instructor.preferred_name}</td>
             <td>{instructor.first_name}</td>
             <td>{instructor.last_name}</td>
-            <td>{instructor.preferred_name}</td>
             <td>{instructor.email}</td>
             <td>{instructor.phone_number}</td>
             <td>

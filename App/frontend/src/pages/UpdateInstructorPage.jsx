@@ -44,9 +44,8 @@ function UpdateInstructorPage({classes}){
                                 <input type="checkbox" id={`custom-checkbox-${index}`} 
                                 name={one_class.name} value={one_class.class_id} 
                                 checked={checkedState[index]}
-                                onChange={ ()=> handleOnChange(index)}
-                                />
-                                <label htmlFor={`custom-checkbox-${index}`}>{one_class.name} </label><br></br>
+                                onChange={ ()=> handleOnChange(index)}/>
+                                <label htmlFor={`custom-checkbox-${index}`}> {one_class.name} </label><br></br>
                             </div>
 
                         )

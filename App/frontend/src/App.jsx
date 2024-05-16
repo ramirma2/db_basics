@@ -14,6 +14,9 @@ import ScheduleClassPage from "./pages/ScheduleClassPage";
 import MemberClassesPage from "./pages/MemberClassesPage";
 import ScheduledMembersPage from "./pages/ScheduledMembersPage";
 import classes from './data/classes';
+import members from "./data/members";
+import instructors from "./data/instructors";
+import schedules from "./data/schedules";
 
 
 function App() {
@@ -22,16 +25,16 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/classes" element={<ClassesPage />} />
-        <Route path="/members" element={<MembersPage />} />
-        <Route path="/instructors" element={<InstructorsPage />} />
-        <Route path="/schedules" element={<SchedulesPage />} />
+        <Route path="/classes" element={<ClassesPage classes={classes}/>} />
+        <Route path="/members" element={<MembersPage members={members} />} />
+        <Route path="/instructors" element={<InstructorsPage instructors={instructors}/>} />
+        <Route path="/schedules" element={<SchedulesPage schedules={schedules} instructors={instructors} />} />
         <Route path="/update-class" element={<UpdateClassPage />} />
         <Route path="/update-member" element={<UpdateMemberPage />} />
         <Route path="/update-instructor" element={<UpdateInstructorPage classes={classes}/>} />
         <Route path="/update-schedule" element={<UpdateSchedulePage  />} />
         <Route path="/schedule-class" element={<ScheduleClassPage />} />
-        <Route path="/member-classes" element={<MemberClassesPage />} />
+        <Route path="/member-classes" element={<MemberClassesPage  />} />
         <Route path="/scheduled-members" element={<ScheduledMembersPage />} />
 
 

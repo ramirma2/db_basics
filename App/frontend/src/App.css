@@ -112,6 +112,7 @@ label {
   text-align: left;
   display:block;
   width: 100%;
+  font-size: 1em;
 } 
 
 
@@ -122,6 +123,9 @@ fieldset {
   border: 2px solid #E6E8EF;
   text-align: left;
   font-size: 1.2em;;
+}
+fieldset >label{
+  font-size: 1em;;
 }
 
 .class-checkbox{
@@ -161,9 +165,11 @@ table {
 table td {
 	padding: 15px;
   border: 1px solid #CECFDF;
-
+  width:auto
 
 }
+
+
 table thead tr {
 	background-color: #0094C6;
 	color: #ffffff;
