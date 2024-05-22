@@ -3,7 +3,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-const PORT = process.env.PORT || 8500;
+const PORT = process.env.PORT || 65003;
 
 // Middleware:
 
@@ -14,12 +14,20 @@ app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json());
 
 // API Routes for backend CRUD:
-app.use("/api/people", require("./routes/peopleRoutes"));
+// app.use("/api/people", require("./routes/peopleRoutes"));
 
 
 // Add your Connect DB Activitiy Code Below:
 // ...
+const db = require('./database/config.js')
 
+app.get('/classes',  (req, res) => {
+    let query_classes = 'SELECT * FROM Classes;'
+    db.pool.query(query_classes, (err, result)=>{
+      if (err) throw err;
+      res.json(result)
+    });
+});
 
 // ...
 // End Connect DB Activity Code.
@@ -27,5 +35,5 @@ app.use("/api/people", require("./routes/peopleRoutes"));
 
 app.listen(PORT, () => {
   // Change this text to whatever FLIP server you're on
-  console.log(`Server running:  http://flip3.engr.oregonstate.edu:${PORT}...`);
+  console.log(`Server running:  http://classwork.engr.oregonstate.edu:${PORT}...`);
 });
