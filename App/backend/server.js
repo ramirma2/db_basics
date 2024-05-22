@@ -44,6 +44,15 @@ app.get('/classes',  (req, res) => {
 
 app.post('/classes',  (req, res) => {
     //CREATE A CLASS
+    const { name, duration, capacity, description } = req.body;
+    if (!name || !duration || !capacity || !description) {
+        return res.status(400);
+    }
+    let query_create_class = `INSERT INTO Classes (name, duration, capacity, description) VALUES ('${name}', '${duration}', '${capacity}', '${description}');`
+    db.pool.query(query_create_class, [name, duration, capacity, description], (err, result) => {
+        if (err) throw err;
+        res.json(result)
+    });
 });
 
 app.put('/classes/',  (req, res) => {
@@ -53,6 +62,12 @@ app.put('/classes/',  (req, res) => {
 
 app.delete('/classes/:_id',  (req, res) => {
     //DELETE A CLASS
+    const class_id = req.params._id;
+    let query_delete_class = `DELETE FROM Classes WHERE class_id = ${class_id};`
+    db.pool.query(query_delete_class, (err, result) => {
+        if (err) throw err;
+        res.json(result)
+    });
 });
 
 // ...
