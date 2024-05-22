@@ -1,20 +1,55 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ClassesTable from '../components/classes/ClassesTable';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
-function ClassesPage({ classes }) {
+function ClassesPage({ setClassToEdit }) {
 
-
+    const history = useNavigate();
     const [name, setName] = useState("");
     const [duration, setDuration] = useState("");
     const [capacity, setCapacity] = useState("");
     const [description, setDescription] = useState("");
 
+    const [myClasses, setMyClasses] = useState([]);
+
+    const onEdit = async classToEdit => {
+        const my_class = await getClass(classToEdit.class_id)
+        setClassToEdit(my_class);
+        history("/update-class")
+    }
+
+    const getClass = async(class_id) =>{
+        try{
+            const url = import.meta.env.VITE_API_URL + `classes/${class_id}`
+            const response = await axios.get(url);
+            return response.data[0];
+        }catch(error){
+            console.log("Error getting the class requested:", error)
+        }
+    }
+
+    const getClasses = async () => {
+        try {
+            const url = import.meta.env.VITE_API_URL + 'classes';
+            const response = await axios.get(url);
+            setMyClasses(response.data);
+        } catch (error) {
+            console.error('Error getting the classes data:', error);
+        }
+    }
+
+    useEffect(() => {
+        getClasses();
+    }, [])
+
     return (
         <section>
             <div>
                 <h2>Manage classes offered</h2>
-                <ClassesTable classes={classes} />
+                <ClassesTable classes={myClasses}
+                    onEdit={onEdit} />
 
             </div>
 

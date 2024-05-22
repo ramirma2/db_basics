@@ -21,12 +21,38 @@ app.use(express.json());
 // ...
 const db = require('./database/config.js')
 
+//Get one class
+app.get('/classes/:_id',  (req, res) => {
+    const class_id = req.params._id
+    let query_class = `SELECT class_id, name, duration, capacity, description FROM Classes WHERE class_id = ${class_id};`
+    db.pool.query(query_class, (err, result)=>{
+      if (err) throw err;
+      res.json(result)
+    });
+});
+
+//Get all classes
 app.get('/classes',  (req, res) => {
     let query_classes = 'SELECT * FROM Classes;'
     db.pool.query(query_classes, (err, result)=>{
       if (err) throw err;
       res.json(result)
     });
+});
+
+
+
+app.post('/classes',  (req, res) => {
+    //CREATE A CLASS
+});
+
+app.put('/classes/',  (req, res) => {
+    //UPDATE A CLASS
+});
+
+
+app.delete('/classes/:_id',  (req, res) => {
+    //DELETE A CLASS
 });
 
 // ...

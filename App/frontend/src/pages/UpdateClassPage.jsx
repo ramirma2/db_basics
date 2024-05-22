@@ -1,10 +1,10 @@
 import {useState} from 'react';
 
-function UpdateClassPage(){
-    const [name, setName] = useState("");
-    const [duration, setDuration] = useState("");
-    const [capacity, setCapacity] = useState("");
-    const [description, setDescription] = useState("");
+function UpdateClassPage({classToEdit}){
+    const [name, setName] = useState(classToEdit.name);
+    const [duration, setDuration] = useState(classToEdit.duration);
+    const [capacity, setCapacity] = useState(classToEdit.capacity);
+    const [description, setDescription] = useState(classToEdit.description);
 
     return (
         <form className='update-class'>

@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import { MdEdit, MdOutlineEdit } from "react-icons/md";
 import { MdDeleteForever } from "react-icons/md";
 
-function ClassSingle({class_info}){
+function ClassSingle({class_info, onEdit}){
 
     return(
         <tr>
@@ -13,7 +13,7 @@ function ClassSingle({class_info}){
             <td>{class_info.capacity}</td>
             <td>{class_info.description}</td>
             <td>
-                <Link to="/update-class" ><MdEdit/></Link></td>
+                <MdEdit  onClick={()=> onEdit(class_info)}/></td>
             <td><MdDeleteForever/></td>
         </tr>
     )

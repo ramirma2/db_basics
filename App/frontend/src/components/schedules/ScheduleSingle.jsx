@@ -10,9 +10,9 @@ function ScheduleSingle({schedule}){
         <tr>
             <td>{schedule.class_name}</td>
             <td>{schedule.date}</td>
+            <td>{schedule.day_of_the_week}</td>
             <td>{schedule.start_time}</td>
             <td>{schedule.end_time}</td>
-            <td>{schedule.day_of_the_week}</td>
             <td>{schedule.instructor}</td>
             <td>{schedule.at_capacity}</td>
             <td>{schedule.status}</td>
