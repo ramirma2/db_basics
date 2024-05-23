@@ -1,7 +1,7 @@
 import ClassSingle from './ClassSingle';
 
 
-function ClassesTable({ classes, onEdit }) {
+function ClassesTable({ classes, onEdit, onDelete}) {
 
 
     return (
@@ -20,6 +20,7 @@ function ClassesTable({ classes, onEdit }) {
                 {classes.map((class_info, i) => <ClassSingle class_info={class_info}
                     key={i}
                     onEdit={onEdit}
+                    onDelete={onDelete}
                 />)}
             </tbody>
         </table>

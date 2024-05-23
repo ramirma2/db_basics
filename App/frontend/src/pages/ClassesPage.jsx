@@ -11,13 +11,19 @@ function ClassesPage({ setClassToEdit }) {
     const [duration, setDuration] = useState("");
     const [capacity, setCapacity] = useState("");
     const [description, setDescription] = useState("");
-
     const [myClasses, setMyClasses] = useState([]);
+    
 
     const onEdit = async classToEdit => {
         const my_class = await getClass(classToEdit.class_id)
         setClassToEdit(my_class);
         history("/update-class")
+    }
+
+    const onDelete = async classToDelete=>{
+        const url = import.meta.env.VITE_API_URL + `classes/${classToDelete}`
+        const response = await axios.delete(url)
+        getClasses();
     }
 
     const getClass = async(class_id) =>{
@@ -40,6 +46,23 @@ function ClassesPage({ setClassToEdit }) {
         }
     }
 
+    const addClass = async () =>{
+        const attributes= {name, duration, capacity, description}
+        try{
+            const url = import.meta.env.VITE_API_URL + 'classes';
+            const response = await axios.post(url, attributes);
+            if(response.status ==200){
+                alert("New Class Added")
+            }else{
+                alert("There was a problem adding your class")
+            }
+
+        }catch(error){
+            console.log('Error adding a new class')
+        }
+        getClasses()
+    }
+
     useEffect(() => {
         getClasses();
     }, [])
@@ -49,7 +72,8 @@ function ClassesPage({ setClassToEdit }) {
             <div>
                 <h2>Manage classes offered</h2>
                 <ClassesTable classes={myClasses}
-                    onEdit={onEdit} />
+                    onEdit={onEdit}
+                    onDelete={onDelete} />
 
             </div>
 
@@ -69,6 +93,7 @@ function ClassesPage({ setClassToEdit }) {
                 <button
                     onClick={e => {
                         e.preventDefault();
+                        addClass();
                     }}
                 >Add New Class</button>
             </form>

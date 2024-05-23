@@ -41,7 +41,6 @@ app.get('/classes',  (req, res) => {
 });
 
 
-
 app.post('/classes',  (req, res) => {
     //CREATE A CLASS
     const { name, duration, capacity, description } = req.body;
@@ -55,8 +54,21 @@ app.post('/classes',  (req, res) => {
     });
 });
 
-app.put('/classes/',  (req, res) => {
+app.put('/classes/:_id',  (req, res) => {
     //UPDATE A CLASS
+    const class_id = parseInt(req.params._id);
+    const { name, duration, capacity, description } = req.body;
+
+    let query_update_class = `UPDATE Classes SET 
+        name='${name}',
+        duration = '${duration}',
+        capacity='${capacity}',
+        description = '${description}'   
+        WHERE class_id= ${class_id};`
+    db.pool.query(query_update_class,[name],(err,result)=>{
+        if(err) throw err;
+        res.json(result)
+    })
 });
 
 
