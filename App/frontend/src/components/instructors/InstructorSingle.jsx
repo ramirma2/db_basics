@@ -11,9 +11,9 @@ function InstructorSingle({instructor}){
             <td>{instructor.email}</td>
             <td>{instructor.phone_number}</td>
             <td>
-                <ul className='instructors-classes-list'>
+                {/* <ul className='instructors-classes-list'>
                     {instructor.classes.map((one_class, i)=> <li key={i}>{one_class}</li>)}
-                </ul>
+                </ul> */}
             </td>
 
               <td> <Link to="/update-instructor" ><MdEdit/></Link></td>

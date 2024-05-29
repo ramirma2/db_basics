@@ -1,13 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import InstructorsTable from '../components/instructors/InstructorsTable';
+import axios from 'axios';
 
-function InstructorsPage({ instructors }) {
+function InstructorsPage() {
 
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [preferredName, setPreferredName] = useState("");
+    const [instructors ,setInstructors] = useState([]);
+
+    const getInstructors = async () =>{
+        try{
+            const url = import.meta.env.VITE_API_URL + 'instructors'; 
+            const response = await axios.get(url);
+            setInstructors(response.data);
+        }catch(error) {
+            console.log("Error getting the instructors data:", error)
+        }
+    }
+
+    useEffect( () => {
+        getInstructors();
+    }, [])
 
 
 

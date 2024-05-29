@@ -65,7 +65,7 @@ app.put('/classes/:_id',  (req, res) => {
         capacity='${capacity}',
         description = '${description}'   
         WHERE class_id= ${class_id};`
-    db.pool.query(query_update_class,[name],(err,result)=>{
+    db.pool.query(query_update_class,[name,duration, capacity, description],(err,result)=>{
         if(err) throw err;
         res.json(result)
     })
@@ -81,6 +81,45 @@ app.delete('/classes/:_id',  (req, res) => {
         res.json(result)
     });
 });
+
+//Get all instructors
+app.get('/instructors', (req, res) => {
+    let inst_get_query = 'SELECT * FROM Instructors;'
+    db.pool.query(inst_get_query, (err, result) => {
+        if (err) throw err;
+        res.json(result);
+    });
+});
+//Create one instructor
+app.post('/instructors', (req, res) => {
+    const {first_name, last_name, preferred_name, email, phone_number} = req.body;
+    let inst_post_query = `INSERT INTO Instructors (first_name, last_name, preferred_name, email, phone_number)
+    VALUES ('${first_name}', '${last_name}, '${preferred_name}, '${email}, '${phone_number}');`
+    db.pool.query(inst_post_query, (err, result) => {
+        if (err) throw err;
+        res.json(result)
+    });
+});
+
+//Get one instructor
+app.get('/instructors/:_id', (req, res) => {
+  
+});
+
+
+//Update instructor
+app.put('/instructors/:_id', (req, res) => {
+
+});
+
+app.delete('/instructors/:_id', (req, res)=>{
+    const inst_id = query.params._id;
+    let inst_del_query = `DELETE FROM Instructors WHERE instructor_id = ${inst_id};`
+    db.pool.query(inst_del_query, (err, result) => {
+        if(err) throw err;
+        res.json(result);
+    })
+})
 
 // ...
 // End Connect DB Activity Code.
