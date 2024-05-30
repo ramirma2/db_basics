@@ -22,26 +22,26 @@ app.use(express.json());
 const db = require('./database/config.js')
 
 //Get one class
-app.get('/classes/:_id',  (req, res) => {
+app.get('/classes/:_id', (req, res) => {
     const class_id = req.params._id
     let query_class = `SELECT class_id, name, duration, capacity, description FROM Classes WHERE class_id = ${class_id};`
-    db.pool.query(query_class, (err, result)=>{
-      if (err) throw err;
-      res.json(result)
+    db.pool.query(query_class, (err, result) => {
+        if (err) throw err;
+        res.json(result)
     });
 });
 
 //Get all classes
-app.get('/classes',  (req, res) => {
+app.get('/classes', (req, res) => {
     let query_classes = 'SELECT * FROM Classes;'
-    db.pool.query(query_classes, (err, result)=>{
-      if (err) throw err;
-      res.json(result)
+    db.pool.query(query_classes, (err, result) => {
+        if (err) throw err;
+        res.json(result)
     });
 });
 
 
-app.post('/classes',  (req, res) => {
+app.post('/classes', (req, res) => {
     //CREATE A CLASS
     const { name, duration, capacity, description } = req.body;
     if (!name || !duration || !capacity || !description) {
@@ -54,7 +54,7 @@ app.post('/classes',  (req, res) => {
     });
 });
 
-app.put('/classes/:_id',  (req, res) => {
+app.put('/classes/:_id', (req, res) => {
     //UPDATE A CLASS
     const class_id = parseInt(req.params._id);
     const { name, duration, capacity, description } = req.body;
@@ -65,14 +65,14 @@ app.put('/classes/:_id',  (req, res) => {
         capacity='${capacity}',
         description = '${description}'   
         WHERE class_id= ${class_id};`
-    db.pool.query(query_update_class,[name,duration, capacity, description],(err,result)=>{
-        if(err) throw err;
+    db.pool.query(query_update_class, [name, duration, capacity, description], (err, result) => {
+        if (err) throw err;
         res.json(result)
     })
 });
 
 
-app.delete('/classes/:_id',  (req, res) => {
+app.delete('/classes/:_id', (req, res) => {
     //DELETE A CLASS
     const class_id = req.params._id;
     let query_delete_class = `DELETE FROM Classes WHERE class_id = ${class_id};`
@@ -92,9 +92,9 @@ app.get('/instructors', (req, res) => {
 });
 //Create one instructor
 app.post('/instructors', (req, res) => {
-    const {first_name, last_name, preferred_name, email, phone_number} = req.body;
+    const { first_name, last_name, preferred_name, email, phone_number } = req.body;
     let inst_post_query = `INSERT INTO Instructors (first_name, last_name, preferred_name, email, phone_number)
-    VALUES ('${first_name}', '${last_name}, '${preferred_name}, '${email}, '${phone_number}');`
+    VALUES ('${first_name}', '${last_name}', '${preferred_name}', '${email}', '${phone_number}');`
     db.pool.query(inst_post_query, (err, result) => {
         if (err) throw err;
         res.json(result)
@@ -103,20 +103,38 @@ app.post('/instructors', (req, res) => {
 
 //Get one instructor
 app.get('/instructors/:_id', (req, res) => {
-  
+    const inst_id = req.params._id;
+    let get_inst_query = `SELECT instructor_id, first_name, last_name, preferred_name, email, phone_number
+    FROM Instructors
+    WHERE instructor_id = ${inst_id};`
+    db.pool.query(get_inst_query, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
+    })
 });
 
+//Get one instructor's classes
+app.get('/instructors/:_id/classes', (req, res) => {
+    const inst_id = req.params._id;
+    let get_inst_classes_query = `SELECT Instructors_has_Classes.class_id, Classes.name AS class_name, Instructors_has_Classes.instructor_id
+    FROM Instructors JOIN Instructors_has_Classes ON Instructors.instructor_id = Instructors_has_Classes.instructor_id
+    JOIN Classes ON Classes.class_id = Instructors_has_Classes.class_id AND Instructors.instructor_id = ${inst_id};`
+    db.pool.query(get_inst_classes_query, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
+    })
+})
 
 //Update instructor
 app.put('/instructors/:_id', (req, res) => {
 
 });
 
-app.delete('/instructors/:_id', (req, res)=>{
-    const inst_id = query.params._id;
+app.delete('/instructors/:_id', (req, res) => {
+    const inst_id = req.params._id;
     let inst_del_query = `DELETE FROM Instructors WHERE instructor_id = ${inst_id};`
     db.pool.query(inst_del_query, (err, result) => {
-        if(err) throw err;
+        if (err) throw err;
         res.json(result);
     })
 })
@@ -126,6 +144,6 @@ app.delete('/instructors/:_id', (req, res)=>{
 
 
 app.listen(PORT, () => {
-  // Change this text to whatever FLIP server you're on
-  console.log(`Server running:  http://classwork.engr.oregonstate.edu:${PORT}...`);
+    // Change this text to whatever FLIP server you're on
+    console.log(`Server running:  http://classwork.engr.oregonstate.edu:${PORT}...`);
 });

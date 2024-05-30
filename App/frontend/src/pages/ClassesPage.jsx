@@ -52,6 +52,7 @@ function ClassesPage({ setClassToEdit }) {
             const url = import.meta.env.VITE_API_URL + 'classes';
             const response = await axios.post(url, attributes);
             if(response.status ==200){
+                resetInputs();
                 alert("New Class Added")
             }else{
                 alert("There was a problem adding your class")
@@ -61,6 +62,13 @@ function ClassesPage({ setClassToEdit }) {
             console.log('Error adding a new class')
         }
         getClasses()
+    }
+
+    const resetInputs = () =>{
+        setName('');
+        setCapacity('');
+        setDuration('');
+        setDescription('');
     }
 
     useEffect(() => {

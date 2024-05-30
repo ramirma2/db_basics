@@ -1,12 +1,12 @@
 import {useState} from 'react';
 
 
-function UpdateInstructorPage({classes}){
-    const [firstName, setFirstName]=useState("");
-    const [lastName, setLastName]=useState("");
-    const [email, setEmail]=useState("");
-    const [phoneNumber, setPhoneNumber]=useState("");
-    const [preferredName, setPreferredName] = useState("");
+function UpdateInstructorPage({classes, instructorToEdit}){
+    const [firstName, setFirstName]=useState(instructorToEdit.first_name);
+    const [lastName, setLastName]=useState(instructorToEdit.last_name);
+    const [email, setEmail]=useState(instructorToEdit.email);
+    const [phoneNumber, setPhoneNumber]=useState(instructorToEdit.phone_number);
+    const [preferredName, setPreferredName] = useState(instructorToEdit.preferred_name);
     const [checkedState, setCheckedState] = useState(
         new Array(classes.length).fill(false)
     );

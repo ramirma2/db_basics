@@ -25,19 +25,29 @@ import schedules from "./data/schedules";
 function App() {
 
   const [classToEdit, setClassToEdit]= useState([]);
+  const [instructorToEdit, setInstructorToEdit] = useState([]);
+  const [memberToEdit, setMemberToEdit] = useState([]);
+  const [scheduleToEdit, setScheduleToEdit] = useState([]);
+
 
   return (
     <div className="App">
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/classes" element={<ClassesPage classes={classes} setClassToEdit={setClassToEdit}/>} />
+        <Route path="/classes" element={<ClassesPage 
+                                            classes={classes} 
+                                            setClassToEdit={setClassToEdit}/>} />
         <Route path="/members" element={<MembersPage members={members} />} />
-        <Route path="/instructors" element={<InstructorsPage instructors={instructors}/>} />
+        <Route path="/instructors" element={<InstructorsPage 
+                                            instructors={instructors} 
+                                            setInstructorToEdit={setInstructorToEdit}/>} />
         <Route path="/schedules" element={<SchedulesPage schedules={schedules} instructors={instructors} />} />
         <Route path="/update-class" element={<UpdateClassPage classToEdit={classToEdit}/>} />
         <Route path="/update-member" element={<UpdateMemberPage />} />
-        <Route path="/update-instructor" element={<UpdateInstructorPage classes={classes}/>} />
+        <Route path="/update-instructor" element={<UpdateInstructorPage 
+                                                    classes={classes}
+                                                    instructorToEdit={instructorToEdit}/>} />
         <Route path="/update-schedule" element={<UpdateSchedulePage  />} />
         <Route path="/schedule-class" element={<ScheduleClassPage />} />
         <Route path="/member-classes" element={<MemberClassesPage  />} />

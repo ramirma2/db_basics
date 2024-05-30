@@ -1,7 +1,7 @@
 import InstructorSingle from "./InstructorSingle";
 
 
-function InstructorsTable({ instructors }) {
+function InstructorsTable({ instructors, onEdit, onDelete, getInstructorClasses }) {
 
 
     return (
@@ -22,7 +22,12 @@ function InstructorsTable({ instructors }) {
 
             </thead>
             <tbody>
-                {instructors.map((inst, i) => <InstructorSingle instructor={inst} key={i} />)}
+                {instructors.map((inst, i) => <InstructorSingle 
+                                                instructor={inst} 
+                                                key={i} 
+                                                onEdit={onEdit}
+                                                onDelete={onDelete}
+                                                getInstructorClasses={getInstructorClasses}/>)}
             </tbody>
 
         </table>
