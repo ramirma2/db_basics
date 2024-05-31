@@ -4,14 +4,14 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 
-function ClassesPage({ setClassToEdit }) {
+function ClassesPage({ classes, setClassToEdit, getClasses }) {
 
     const history = useNavigate();
     const [name, setName] = useState("");
     const [duration, setDuration] = useState("");
     const [capacity, setCapacity] = useState("");
     const [description, setDescription] = useState("");
-    const [myClasses, setMyClasses] = useState([]);
+   
     
 
     const onEdit = async classToEdit => {
@@ -36,15 +36,6 @@ function ClassesPage({ setClassToEdit }) {
         }
     }
 
-    const getClasses = async () => {
-        try {
-            const url = import.meta.env.VITE_API_URL + 'classes';
-            const response = await axios.get(url);
-            setMyClasses(response.data);
-        } catch (error) {
-            console.error('Error getting the classes data:', error);
-        }
-    }
 
     const addClass = async () =>{
         const attributes= {name, duration, capacity, description}
@@ -71,15 +62,12 @@ function ClassesPage({ setClassToEdit }) {
         setDescription('');
     }
 
-    useEffect(() => {
-        getClasses();
-    }, [])
 
     return (
         <section>
             <div>
                 <h2>Manage classes offered</h2>
-                <ClassesTable classes={myClasses}
+                <ClassesTable classes={classes}
                     onEdit={onEdit}
                     onDelete={onDelete} />
 

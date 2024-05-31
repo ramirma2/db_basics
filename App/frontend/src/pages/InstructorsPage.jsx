@@ -31,7 +31,8 @@ function InstructorsPage({setInstructorToEdit}) {
             const url = url_main + `instructors/${instructor_id}`;
             const response = await axios.get(url);
             const inst_classes  = await getInstructorClasses(instructor_id);
-            return {...response.data[0], classes:inst_classes};
+            const inst_classes_id = inst_classes.map((one_class,i)=> one_class.class_id)
+            return {...response.data[0], classes_ids:inst_classes_id};
         }catch(error){
             console.log('Error getting the instructor requested:',error);
         }

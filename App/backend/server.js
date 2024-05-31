@@ -101,6 +101,27 @@ app.post('/instructors', (req, res) => {
     });
 });
 
+//Add classes for one instructor
+app.post('/instructors/:_id/classes', async(req, res) => {
+    const inst_id = req.params._id;
+    const class_ids = req.body.class_ids;
+    const class_ids_w_inst= await class_ids.map((class_id, i) => {
+        return {_id:class_id, inst_id}
+    })
+    let responses = await Promise.all(
+        class_ids_w_inst.map(async(one_class, i)=>{
+            let inst_add_class_query = `INSERT INTO Instructors_has_Classes (instructor_id, class_id)
+            VALUES('${one_class.inst_id}', '${one_class._id}');`
+            db.pool.query(inst_add_class_query, (err, result) => {
+                if (err) throw err;
+                return result
+            });
+             
+        })
+    )
+    res.json(responses)
+});
+
 //Get one instructor
 app.get('/instructors/:_id', (req, res) => {
     const inst_id = req.params._id;
@@ -127,7 +148,15 @@ app.get('/instructors/:_id/classes', (req, res) => {
 
 //Update instructor
 app.put('/instructors/:_id', (req, res) => {
-
+    const inst_id = req.params._id;
+    const { first_name, last_name, preferred_name, email, phone_number } = req.body;
+    let update_inst_query = `UPDATE Instructors
+    SET first_name = '${first_name}', last_name = '${last_name}', preferred_name = '${preferred_name}', email = '${email}', phone_number = '${phone_number}'
+    WHERE instructor_id ='${inst_id}';`
+    db.pool.query(update_inst_query, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
+    })
 });
 
 app.delete('/instructors/:_id', (req, res) => {
@@ -138,6 +167,27 @@ app.delete('/instructors/:_id', (req, res) => {
         res.json(result);
     })
 })
+
+app.delete('/instructors/:_id/classes', async(req, res) => {
+    const inst_id = req.params._id;
+    const class_ids = req.body;
+
+    const class_ids_w_inst= await class_ids.map((class_id, i) => {
+        return {_id:class_id, inst_id}
+    })
+    let responses = await Promise.all(
+        class_ids_w_inst.map(async(one_class, i)=>{
+            let inst_del_class_query = `DELETE FROM Instructors_has_Classes WHERE Instructors_has_Classes.instructor_id = '${one_class.inst_id}' AND Instructors_has_Classes.class_id = '${one_class._id}';`
+            db.pool.query(inst_del_class_query, (err, result) => {
+                if (err) throw err;
+                return result;
+            });
+             
+        })
+    )
+    res.json(responses)
+})
+
 
 // ...
 // End Connect DB Activity Code.
