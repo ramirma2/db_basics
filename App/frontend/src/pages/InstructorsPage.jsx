@@ -3,7 +3,7 @@ import InstructorsTable from '../components/instructors/InstructorsTable';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 
-function InstructorsPage({setInstructorToEdit}) {
+function InstructorsPage({instructors, setInstructorToEdit, getInstructors, getInstructorClasses}) {
 
     const history = useNavigate();
     const [firstName, setFirstName] = useState("");
@@ -11,7 +11,6 @@ function InstructorsPage({setInstructorToEdit}) {
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [preferredName, setPreferredName] = useState("");
-    const [instructors ,setInstructors] = useState([]);
     const url_main = import.meta.env.VITE_API_URL
 
     const onEdit = async instructorToEdit =>{
@@ -38,26 +37,6 @@ function InstructorsPage({setInstructorToEdit}) {
         }
     }
 
-    const getInstructorClasses = async (instructor_id) => {
-        try{
-            const url = url_main + `instructors/${instructor_id}/classes`;
-            const response = await axios.get(url);
-            return response.data;
-        }catch(error){
-            console.log("Error getting the instructor's data requested:",error);
-        }
-    }
-
-    const getInstructors = async () =>{
-        try{
-            const url = url_main + 'instructors'; 
-            const response = await axios.get(url);
-            const response_with_classes = await getEachClass(response.data);
-            setInstructors(response_with_classes);
-        }catch(error) {
-            console.log("Error getting the instructors data:", error)
-        }
-    }
 
     const addInstructor = async () =>{
         const attributes = {first_name:firstName, last_name:lastName, preferred_name: preferredName, email, phone_number:phoneNumber};
@@ -77,20 +56,6 @@ function InstructorsPage({setInstructorToEdit}) {
         getInstructors();
     }
 
-    const getEachClass = async (instructors) => {
-
-            let classes =  await Promise.all(
-                instructors.map(async(inst, i)=>{
-                    return getInstructorClasses(inst.instructor_id)
-                })
-            )
-            const instructors_updated = instructors.map((inst, i)=>{
-                return {...inst, classes: classes[i]}
-            })
-            
-        return instructors_updated;
-    }
-
     const resetInputs = ()=> {
         setFirstName('');
         setLastName('');
@@ -98,10 +63,6 @@ function InstructorsPage({setInstructorToEdit}) {
         setPhoneNumber('');
         setPreferredName('');
     }
-
-    useEffect( () => {
-        getInstructors();
-    }, [])
 
 
 

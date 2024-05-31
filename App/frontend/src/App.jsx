@@ -14,8 +14,6 @@ import UpdateSchedulePage from "./pages/UpdateSchedulePage";
 import ScheduleClassPage from "./pages/ScheduleClassPage";
 import MemberClassesPage from "./pages/MemberClassesPage";
 import ScheduledMembersPage from "./pages/ScheduledMembersPage";
-import instructors from "./data/instructors";
-import schedules from "./data/schedules";
 import axios from 'axios';
 
 
@@ -25,10 +23,14 @@ function App() {
 
   const [classToEdit, setClassToEdit]= useState([]);
   const [instructorToEdit, setInstructorToEdit] = useState([]);
+  const [instructors, setInstructors] = useState([]);
   const [classes, setClasses] = useState([]);
   const [members, setMembers] = useState([]);
+  const[schedules, setSchedules] = useState([]);
   const [memberToEdit, setMemberToEdit] = useState([]);
   const [scheduleToEdit, setScheduleToEdit] = useState([]);
+
+  const url_main = import.meta.env.VITE_API_URL
 
 
   const getClasses = async () => {
@@ -51,9 +53,58 @@ const getMembers = async () => {
   }
 }
 
+const getSchedules = async () => {
+    try {
+      const url = import.meta.env.VITE_API_URL + 'schedules';
+      const response = await axios.get(url);
+      setSchedules(response.data);
+  } catch (error) {
+      console.error('Error getting the schedules data:', error);
+  }
+}
+
+
+const getInstructors = async () =>{
+  try{
+      const url = import.meta.env.VITE_API_URL + 'instructors'; 
+      const response = await axios.get(url);
+      const response_with_classes = await getEachClass(response.data);
+      setInstructors(response_with_classes);
+  }catch(error) {
+      console.log("Error getting the instructors data:", error)
+  }
+}
+
+
+const getEachClass = async (instructors) => {
+  let classes =  await Promise.all(
+      instructors.map(async(inst, i)=>{
+          return getInstructorClasses(inst.instructor_id)
+      })
+  )
+  const instructors_updated = instructors.map((inst, i)=>{
+      return {...inst, classes: classes[i]}
+  })
+
+  
+  return instructors_updated;
+}
+
+const getInstructorClasses = async (instructor_id) => {
+  try{
+      const url = url_main + `instructors/${instructor_id}/classes`;
+      const response = await axios.get(url);
+      return response.data;
+  }catch(error){
+      console.log("Error getting the instructor's data requested:",error);
+  }
+}
+
 useEffect(() => {
   getClasses();
   getMembers();
+  getSchedules();
+  getInstructors();
 }, [])
 
 
@@ -72,8 +123,14 @@ useEffect(() => {
                                             setMemberToEdit={setMemberToEdit}/>} />
         <Route path="/instructors" element={<InstructorsPage 
                                             instructors={instructors} 
+                                            getInstructors={getInstructors}
+                                            getInstructorClasses={getInstructorClasses}
                                             setInstructorToEdit={setInstructorToEdit}/>} />
-        <Route path="/schedules" element={<SchedulesPage schedules={schedules} instructors={instructors} />} />
+        <Route path="/schedules" element={<SchedulesPage 
+                                            schedules={schedules} 
+                                            instructors={instructors}
+                                            setScheduleToEdit={setScheduleToEdit}
+                                             />} />
         <Route path="/update-class" element={<UpdateClassPage classToEdit={classToEdit}/>} />
         <Route path="/update-member" element={<UpdateMemberPage
                                                 memberToEdit={memberToEdit} />} />

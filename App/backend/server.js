@@ -247,6 +247,27 @@ app.delete('/instructors/:_id/classes', async(req, res) => {
     res.json(responses)
 })
 
+//Get all schedules
+app.get('/schedules', (req, res) => {
+    let sch_get_query = 'SELECT * FROM Schedules;'
+    db.pool.query(sch_get_query, (err, result) => {
+        if (err) throw err;
+        res.json(result);
+    });
+});
+
+//Get one schedule
+app.get('/schedules/:_id', (req, res) => {
+    const sch_id = req.params._id;
+    let get_sch_query = `SELECT schedule_id, class_id, date, start_time, end_time, day_of_the_week, instructor, at_capacity, status, members_enrolled
+    FROM Schedules
+    WHERE schedule_id='${sch_id}';`
+    db.pool.query(get_sch_query, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
+    })
+});
+
 
 // ...
 // End Connect DB Activity Code.

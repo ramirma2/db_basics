@@ -4,7 +4,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { MdAdd } from 'react-icons/md';
 import { MdOutlineList } from "react-icons/md";
 
-function ScheduleSingle({schedule}){
+function ScheduleSingle({schedule, onEdit, onDelete}){
 
     return(
         <tr>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { MdEdit } from "react-icons/md";
 import SchedulesTable from "../components/schedules/SchedulesTable";
 
-function SchedulesPage({ schedules, instructors }) {
+function SchedulesPage({ schedules, instructors, setScheduleToEdit }) {
 
     const [currClassName, setClassName] = useState("");
     const [date, setDate] = useState("");
@@ -17,7 +17,10 @@ function SchedulesPage({ schedules, instructors }) {
             <div>
                 <h2>Manage our classes schedule</h2>
 
-                <SchedulesTable schedules={schedules} />
+                <SchedulesTable 
+                        schedules={schedules}
+                        onEdit={onEdit}
+                        onDelete={onDelete} />
 
             </div>
 
