@@ -13,9 +13,9 @@ function MemberSingle({member,onDelete, onEdit}){
             <td>{member.last_name}</td>
             <td>{member.email}</td>
             <td>{member.phone_number}</td>
-            <td>{member.birthdate}</td>
-            <td>{member.member_since}</td>
-            <td>{member.membership_exp}</td>
+            <td>{new Date(member.birthdate).toLocaleString().split(',')[0]}</td>
+            <td>{new Date(member.member_since).toLocaleString().split(',')[0]}</td>
+            <td>{new Date(member.membership_exp).toLocaleString().split(',')[0]}</td>
             <td>
                 <Link to="/member-classes" ><MdFitnessCenter/></Link></td>
             <td>

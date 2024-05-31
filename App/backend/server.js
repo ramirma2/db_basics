@@ -56,6 +56,20 @@ app.post('/members', (req, res) => {
     });
 });
 
+//Update member
+app.put('/members/:_id', (req, res) => {
+    const member_id = parseInt(req.params._id);
+    const { first_name, last_name, email, phone_number, birthdate, member_since, membership_exp } = req.body;
+
+    let query_update_member = `UPDATE Members
+    SET first_name = '${first_name}', last_name = '${last_name}', email = '${email}', phone_number = '${phone_number}', member_since = '${member_since}', membership_exp = '${membership_exp}', birthdate = '${birthdate}'
+    WHERE member_id = '${member_id}';`
+    db.pool.query(query_update_member, (err, result) => {
+        if (err) throw err;
+        res.json(result)
+    })
+})
+
 //Delete member
 app.delete('/members/:_id', (req, res) => {
     const member_id = req.params._id;
