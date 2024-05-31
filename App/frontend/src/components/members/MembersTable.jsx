@@ -2,7 +2,7 @@ import MemberSingle from "./MemberSingle";
 
 
 
-function MembersTable({ members }) {
+function MembersTable({ members, onDelete, onEdit }) {
 
 
     return (
@@ -22,7 +22,11 @@ function MembersTable({ members }) {
                 </tr>
             </thead>
             <tbody>
-                {members.map((mem, i) => <MemberSingle member={mem} key={i} />)}
+                {members.map((mem, i) => <MemberSingle
+                                         member={mem} 
+                                         key={i}
+                                         onDelete={onDelete}
+                                         onEdit={onEdit} />)}
             </tbody>
         </table>
     )

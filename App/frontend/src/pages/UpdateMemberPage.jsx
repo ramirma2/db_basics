@@ -1,14 +1,14 @@
 import {useState} from 'react';
 
-function UpdateMemberPage(){
+function UpdateMemberPage({memberToEdit}){
 
-    const [firstName, setFirstName]=useState("");
-    const [lastName, setLastName]=useState("");
-    const [email, setEmail]=useState("");
-    const [phoneNumber, setPhoneNumber]=useState("");
-    const [dob, setDOB] = useState("");
-    const [memberSince, setMemberSince]=useState("");
-    const [memberUntil, setMemberUntil]=useState("");
+    const [firstName, setFirstName]=useState(memberToEdit.first_name);
+    const [lastName, setLastName]=useState(memberToEdit.last_name);
+    const [email, setEmail]=useState(memberToEdit.email);
+    const [phoneNumber, setPhoneNumber]=useState(memberToEdit.phone_number);
+    const [dob, setDOB] = useState(memberToEdit.birthdate);
+    const [memberSince, setMemberSince]=useState(memberToEdit.member_since);
+    const [memberUntil, setMemberUntil]=useState(memberToEdit.membership_exp);
 
     return(
         <form>

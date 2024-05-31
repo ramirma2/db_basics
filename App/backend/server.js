@@ -21,6 +21,51 @@ app.use(express.json());
 // ...
 const db = require('./database/config.js')
 
+
+// Get all members
+app.get('/members', (req, res)=>{
+    const get_members_query = `SELECT * FROM Members;`
+    db.pool.query(get_members_query, (err, result) => {
+        if (err) throw err;
+        res.json(result)
+    });
+})
+
+
+//Get one member
+app.get('/members/:_id', (req, res) => {
+    const mem_id = req.params._id
+    let get_one_mem_query = `SELECT member_id, first_name, last_name, email, phone_number, member_since, membership_exp, birthdate, classes_completed
+    FROM Members
+    WHERE member_id = '${mem_id}';`
+    db.pool.query(get_one_mem_query, (err, result) => {
+        if (err) throw err;
+        res.json(result)
+    });
+})
+
+// Create new mmeber
+app.post('/members', (req, res) => {
+    const { first_name, last_name, email, phone_number, birthdate, member_since, membership_exp } = req.body;
+
+    let query_create_member = `INSERT INTO Members (first_name, last_name, email, phone_number, birthdate, member_since, membership_exp)
+    VALUES ('${first_name}', '${last_name}', '${email}', '${phone_number}', '${birthdate}','${member_since}', '${membership_exp}');`
+    db.pool.query(query_create_member, (err, result) => {
+        if (err) throw err;
+        res.json(result)
+    });
+});
+
+//Delete member
+app.delete('/members/:_id', (req, res) => {
+    const member_id = req.params._id;
+    let query_delete_member = `DELETE FROM Members WHERE member_id = '${member_id}';`
+    db.pool.query(query_delete_member, (err, result) => {
+        if (err) throw err;
+        res.json(result)
+    });
+});
+
 //Get one class
 app.get('/classes/:_id', (req, res) => {
     const class_id = req.params._id
@@ -41,8 +86,8 @@ app.get('/classes', (req, res) => {
 });
 
 
+//CREATE A CLASS
 app.post('/classes', (req, res) => {
-    //CREATE A CLASS
     const { name, duration, capacity, description } = req.body;
     if (!name || !duration || !capacity || !description) {
         return res.status(400);

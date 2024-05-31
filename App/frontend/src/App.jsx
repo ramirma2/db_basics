@@ -14,7 +14,6 @@ import UpdateSchedulePage from "./pages/UpdateSchedulePage";
 import ScheduleClassPage from "./pages/ScheduleClassPage";
 import MemberClassesPage from "./pages/MemberClassesPage";
 import ScheduledMembersPage from "./pages/ScheduledMembersPage";
-import members from "./data/members";
 import instructors from "./data/instructors";
 import schedules from "./data/schedules";
 import axios from 'axios';
@@ -27,6 +26,7 @@ function App() {
   const [classToEdit, setClassToEdit]= useState([]);
   const [instructorToEdit, setInstructorToEdit] = useState([]);
   const [classes, setClasses] = useState([]);
+  const [members, setMembers] = useState([]);
   const [memberToEdit, setMemberToEdit] = useState([]);
   const [scheduleToEdit, setScheduleToEdit] = useState([]);
 
@@ -41,8 +41,19 @@ function App() {
     }
 }
 
+const getMembers = async () => {
+  try {
+      const url = import.meta.env.VITE_API_URL + 'members';
+      const response = await axios.get(url);
+      setMembers(response.data);
+  } catch (error) {
+      console.error('Error getting the members data:', error);
+  }
+}
+
 useEffect(() => {
   getClasses();
+  getMembers();
 }, [])
 
 
@@ -55,13 +66,17 @@ useEffect(() => {
                                             classes={classes} 
                                             getClasses={getClasses}
                                             setClassToEdit={setClassToEdit}/>} />
-        <Route path="/members" element={<MembersPage members={members} />} />
+        <Route path="/members" element={<MembersPage 
+                                            members={members}
+                                            getMembers={getMembers} 
+                                            setMemberToEdit={setMemberToEdit}/>} />
         <Route path="/instructors" element={<InstructorsPage 
                                             instructors={instructors} 
                                             setInstructorToEdit={setInstructorToEdit}/>} />
         <Route path="/schedules" element={<SchedulesPage schedules={schedules} instructors={instructors} />} />
         <Route path="/update-class" element={<UpdateClassPage classToEdit={classToEdit}/>} />
-        <Route path="/update-member" element={<UpdateMemberPage />} />
+        <Route path="/update-member" element={<UpdateMemberPage
+                                                memberToEdit={memberToEdit} />} />
         <Route path="/update-instructor" element={<UpdateInstructorPage 
                                                     classes={classes}
                                                     instructorToEdit={instructorToEdit}/>} />
