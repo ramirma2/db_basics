@@ -3,7 +3,7 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import { MdOutlineEdit } from 'react-icons/md';
 
-function UpdateMemberPage({memberToEdit}){
+function UpdateMemberPage({memberToEdit, getMembers}){
 
     const [firstName, setFirstName]=useState(memberToEdit.first_name);
     const [lastName, setLastName]=useState(memberToEdit.last_name);
@@ -30,6 +30,7 @@ function UpdateMemberPage({memberToEdit}){
             }catch(error){
                 console.log("Error updating the member requested:", error)
             }
+            getMembers()
             history("/members")
         }else{
             return  

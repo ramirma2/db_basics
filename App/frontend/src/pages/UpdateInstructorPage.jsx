@@ -4,7 +4,7 @@ import Checkbox from '../components/Checkbox';
 import {useNavigate} from 'react-router-dom';
 
 
-function UpdateInstructorPage({classes, instructorToEdit}){
+function UpdateInstructorPage({classes, instructorToEdit, getInstructors}){
     const [firstName, setFirstName]=useState(instructorToEdit.first_name);
     const [lastName, setLastName]=useState(instructorToEdit.last_name);
     const [email, setEmail]=useState(instructorToEdit.email);
@@ -33,6 +33,7 @@ function UpdateInstructorPage({classes, instructorToEdit}){
         }catch(error){
             console.log("Error updating the instructor requested:", error)
         }
+        getInstructors()
         history("/instructors")
     }
 

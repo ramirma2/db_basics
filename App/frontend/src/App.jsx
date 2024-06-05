@@ -127,17 +127,27 @@ useEffect(() => {
                                             getInstructorClasses={getInstructorClasses}
                                             setInstructorToEdit={setInstructorToEdit}/>} />
         <Route path="/schedules" element={<SchedulesPage 
+                                            classes ={classes}
                                             schedules={schedules} 
+                                            getSchedules={getSchedules}
                                             instructors={instructors}
                                             setScheduleToEdit={setScheduleToEdit}
                                              />} />
-        <Route path="/update-class" element={<UpdateClassPage classToEdit={classToEdit}/>} />
+        <Route path="/update-class" element={<UpdateClassPage 
+                                              classToEdit={classToEdit}
+                                              getClasses={getClasses}/>} />
         <Route path="/update-member" element={<UpdateMemberPage
-                                                memberToEdit={memberToEdit} />} />
+                                                memberToEdit={memberToEdit} 
+                                                getMembers={getMembers}/>} />
         <Route path="/update-instructor" element={<UpdateInstructorPage 
                                                     classes={classes}
-                                                    instructorToEdit={instructorToEdit}/>} />
-        <Route path="/update-schedule" element={<UpdateSchedulePage  />} />
+                                                    instructorToEdit={instructorToEdit}
+                                                    getInstructors={getInstructors} />}/>
+        <Route path="/update-schedule" element={<UpdateSchedulePage
+                                                    scheduleToEdit={scheduleToEdit}
+                                                    getSchedules = {getSchedules}
+                                                    instructors={instructors}
+                                                    classes={classes} />} />
         <Route path="/schedule-class" element={<ScheduleClassPage />} />
         <Route path="/member-classes" element={<MemberClassesPage  />} />
         <Route path="/scheduled-members" element={<ScheduledMembersPage />} />

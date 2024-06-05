@@ -1,34 +1,87 @@
 import { useState } from 'react';
-import { MdEdit } from "react-icons/md";
 import SchedulesTable from "../components/schedules/SchedulesTable";
+import { useNavigate } from 'react-router-dom';
 
-function SchedulesPage({ schedules, instructors, setScheduleToEdit }) {
+function SchedulesPage({ classes, schedules, instructors, setScheduleToEdit, getSchedules }) {
 
-    const [currClassName, setClassName] = useState("");
+    const history = useNavigate();
+    const [currClassName, setClassName] = useState();
+    const [ classId, setClassId] = useState();
     const [date, setDate] = useState("");
     const [dayOfTheWeek, setDayOfTheWeek] = useState("");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
     const [instructorName, setInstructorName] = useState("");
     const [status, setStatus] = useState("");
+    const url_main = import.meta.env.VITE_API_URL
+
+
+    const onEdit = async scheduleToEdit => {
+        const sch = await getSchedule(scheduleToEdit.schedule_id);
+        setScheduleToEdit(sch);
+        history("/update-schedule");
+    }
+
+    const getSchedule = async (schedule_id) => {
+        try {
+            const url = url_main + `schedules/${schedule_id}`;
+            const response = await axios.get(url);
+            return response.data;
+        } catch (error) {
+            console.log('Error getting the schedule requested:', error);
+        }
+    }
+
+
+    const addSchedule = async () => {
+        const class_id = classes.filter((clss, i)=> clss.name == currClassName).map(clss => clss.class_id)
+        const attributes = {class_id, date, day_of_the_week: dayOfTheWeek, start_time: startTime, end_time: endTime, instructor: instructorName };
+        debugger
+        try {
+            const url = url_main + 'schedules';
+            const response = await axios.post(url, attributes);
+            if (response.status == 200) {
+                resetInputs();
+                alert("Schedule Added");
+            } else {
+                alert("There was a problem adding a new schedule");
+            }
+
+        } catch (error) {
+            console.log("Error adding a new schedule");
+        }
+        getSchedules();
+    }
+
+    const resetInputs = () => {
+        setClassName('');
+        setDate('');
+        setDayOfTheWeek('');
+        setStartTime('');
+        setEndTime('');
+        setInstructorName('');
+        setStatus('');
+    }
 
     return (
         <section>
             <div>
                 <h2>Manage our classes schedule</h2>
 
-                <SchedulesTable 
-                        schedules={schedules}
-                        onEdit={onEdit}
-                        onDelete={onDelete} />
+                <SchedulesTable
+                    schedules={schedules}
+                    onEdit={onEdit} />
 
             </div>
 
 
             <form>
-                <label>Class Name:</label>
-                <input type="text" value={currClassName}
-                    onChange={e => setClassName(e.target.value)} />
+            <label>Class Name:</label>
+                <select
+                onChange= {e=> {setClassName(e.target.value)}}>
+                    {classes.map((clss, i)=> <option key={i} >{clss.name}</option>)}
+
+                </select>
                 <label>Date:</label>
                 <input type="date" value={date}
                     onChange={e => setDate(e.target.value)} />
@@ -36,10 +89,10 @@ function SchedulesPage({ schedules, instructors, setScheduleToEdit }) {
                 <input type="text" value={dayOfTheWeek}
                     onChange={e => setDayOfTheWeek(e.target.value)} />
                 <label>Start Time:</label>
-                <input type="datetime" value={startTime}
+                <input type="time" value={startTime}
                     onChange={e => setStartTime(e.target.value)} />
                 <label>End Time:</label>
-                <input type="datetime" value={endTime}
+                <input type="time" value={endTime}
                     onChange={e => setEndTime(e.target.value)} />
                 <label>Instructor:</label>
                 <select
@@ -49,6 +102,7 @@ function SchedulesPage({ schedules, instructors, setScheduleToEdit }) {
                 <button
                     onClick={e => {
                         e.preventDefault();
+                        addSchedule();
                     }}
                 >Add to Schedule</button>
             </form>

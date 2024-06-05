@@ -14,7 +14,7 @@ function SchedulesTable({ schedules, onEdit, onDelete }) {
                     <th>Start Time</th>
                     <th>End Time</th>
                     <th>Instructor</th>
-                    <th>Full?</th>
+                    <th>Total enrolled</th>
                     <th>Status</th>
                     <th>Edit Schedule</th>
                     <th>Sign Up</th>
@@ -26,8 +26,7 @@ function SchedulesTable({ schedules, onEdit, onDelete }) {
                 {schedules.map((sch, i) => <ScheduleSingle 
                                                 schedule={sch} 
                                                 key={i} 
-                                                onEdit={onEdit}
-                                                onDelete={onDelete}/>)}
+                                                onEdit={onEdit}/>)}
             </tbody>
         </table>
 

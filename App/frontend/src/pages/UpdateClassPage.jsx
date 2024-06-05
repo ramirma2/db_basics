@@ -2,7 +2,7 @@ import {useState} from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 
-function UpdateClassPage({classToEdit}){
+function UpdateClassPage({classToEdit, getClasses}){
     const [name, setName] = useState(classToEdit.name);
     const [duration, setDuration] = useState(classToEdit.duration);
     const [capacity, setCapacity] = useState(classToEdit.capacity);
@@ -25,6 +25,7 @@ function UpdateClassPage({classToEdit}){
         }catch(error){
             console.log("Error updating the class requested:", error)
         }
+        getClasses()
         history("/classes")
         }else{
             return  

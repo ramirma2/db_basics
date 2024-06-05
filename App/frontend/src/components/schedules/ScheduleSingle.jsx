@@ -4,19 +4,20 @@ import { MdDeleteForever } from "react-icons/md";
 import { MdAdd } from 'react-icons/md';
 import { MdOutlineList } from "react-icons/md";
 
-function ScheduleSingle({schedule, onEdit, onDelete}){
+function ScheduleSingle({schedule, onEdit}){
 
     return(
         <tr>
             <td>{schedule.class_name}</td>
-            <td>{schedule.date}</td>
+            <td>{new Date(schedule.date).toLocaleDateString().split(',')[0]}</td>
             <td>{schedule.day_of_the_week}</td>
-            <td>{schedule.start_time}</td>
-            <td>{schedule.end_time}</td>
+            <td>{schedule.start_time.substring(0,5)}</td>
+            <td>{schedule.end_time.substring(0,5)}</td>
             <td>{schedule.instructor}</td>
             <td>{schedule.at_capacity}</td>
             <td>{schedule.status}</td>
-            <td> <Link to="/update-schedule" ><MdEdit/></Link></td>
+            <td> <MdEdit
+                onClick={()=> onEdit(schedule)}/></td>
             <td> <Link to="/schedule-class" ><MdAdd/></Link></td>
             <td> <Link to="/scheduled-members" ><MdOutlineList /></Link></td>
             
