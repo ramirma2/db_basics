@@ -1,24 +1,25 @@
 import { useState } from 'react';
 import SchedulesTable from "../components/schedules/SchedulesTable";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function SchedulesPage({ classes, schedules, instructors, setScheduleToEdit, getSchedules }) {
 
     const history = useNavigate();
-    const [currClassName, setClassName] = useState();
+    const [currClassName, setClassName] = useState(classes[0].name);
     const [ classId, setClassId] = useState();
     const [date, setDate] = useState("");
-    const [dayOfTheWeek, setDayOfTheWeek] = useState("");
+    const [dayOfTheWeek, setDayOfTheWeek] = useState("Monday");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
-    const [instructorName, setInstructorName] = useState("");
+    const [instructorName, setInstructorName] = useState(instructors[0].preferred_name);
     const [status, setStatus] = useState("");
     const url_main = import.meta.env.VITE_API_URL
 
 
     const onEdit = async scheduleToEdit => {
         const sch = await getSchedule(scheduleToEdit.schedule_id);
-        setScheduleToEdit(sch);
+        setScheduleToEdit(sch[0]);
         history("/update-schedule");
     }
 
@@ -36,7 +37,7 @@ function SchedulesPage({ classes, schedules, instructors, setScheduleToEdit, get
     const addSchedule = async () => {
         const class_id = classes.filter((clss, i)=> clss.name == currClassName).map(clss => clss.class_id)
         const attributes = {class_id, date, day_of_the_week: dayOfTheWeek, start_time: startTime, end_time: endTime, instructor: instructorName };
-        debugger
+        
         try {
             const url = url_main + 'schedules';
             const response = await axios.post(url, attributes);
@@ -86,8 +87,16 @@ function SchedulesPage({ classes, schedules, instructors, setScheduleToEdit, get
                 <input type="date" value={date}
                     onChange={e => setDate(e.target.value)} />
                 <label>Day of the Week:</label>
-                <input type="text" value={dayOfTheWeek}
-                    onChange={e => setDayOfTheWeek(e.target.value)} />
+                <select
+                onChange= {e=> {setDayOfTheWeek(e.target.value)}}>
+                    <option >Monday</option>
+                    <option >Tuesday</option>
+                    <option >Wednesday</option>
+                    <option >Thursday</option>
+                    <option >Friday</option>
+                    <option >Saturday</option>
+                    <option >Sunday</option>
+                </select>
                 <label>Start Time:</label>
                 <input type="time" value={startTime}
                     onChange={e => setStartTime(e.target.value)} />

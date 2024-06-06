@@ -14,7 +14,7 @@ function ScheduleSingle({schedule, onEdit}){
             <td>{schedule.start_time.substring(0,5)}</td>
             <td>{schedule.end_time.substring(0,5)}</td>
             <td>{schedule.instructor}</td>
-            <td>{schedule.at_capacity}</td>
+            <td>{schedule.members_enrolled}</td>
             <td>{schedule.status}</td>
             <td> <MdEdit
                 onClick={()=> onEdit(schedule)}/></td>

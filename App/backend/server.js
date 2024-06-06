@@ -249,7 +249,7 @@ app.delete('/instructors/:_id/classes', async(req, res) => {
 
 //Get all schedules
 app.get('/schedules', (req, res) => {
-    let sch_get_query = 'SELECT * FROM Schedules;'
+    let sch_get_query = 'SELECT Schedules.schedule_id, Schedules.class_id ,Schedules.date, Schedules.start_time, Schedules.end_time, Schedules.day_of_the_week, Schedules.instructor, Schedules.members_enrolled, Schedules.status, Classes.name AS class_name FROM Schedules JOIN Classes ON Schedules.class_id = Classes.class_id;'
     db.pool.query(sch_get_query, (err, result) => {
         if (err) throw err;
         res.json(result);
@@ -259,14 +259,36 @@ app.get('/schedules', (req, res) => {
 //Get one schedule
 app.get('/schedules/:_id', (req, res) => {
     const sch_id = req.params._id;
-    let get_sch_query = `SELECT schedule_id, class_id, date, start_time, end_time, day_of_the_week, instructor, at_capacity, status, members_enrolled
-    FROM Schedules
+    let get_sch_query = `SELECT Schedules.schedule_id, Schedules.class_id ,Schedules.date, Schedules.start_time, Schedules.end_time, Schedules.day_of_the_week, Schedules.instructor, Schedules.members_enrolled, Schedules.status, Classes.name AS class_name FROM Schedules JOIN Classes ON Schedules.class_id = Classes.class_id
     WHERE schedule_id='${sch_id}';`
     db.pool.query(get_sch_query, (err, result) => {
         if (err) throw (err);
         res.json(result);
     })
 });
+
+//Add schedule
+app.post('/schedules', (req, res) => {
+    const {class_id, date, start_time, end_time, day_of_the_week, instructor} = req.body
+    let add_sch_query = `INSERT INTO Schedules (class_id ,date, start_time, end_time, day_of_the_week, instructor)
+    VALUES('${class_id}', '${date}', '${start_time}', '${end_time}', '${day_of_the_week}', '${instructor}');`
+    db.pool.query(add_sch_query, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
+    })
+});
+
+//Update schedule
+app.put('/schedules/:_id', (req, res) => {
+    const sch_id = req.params._id;
+    const {class_id, date, start_time, end_time, day_of_the_week, instructor, status} = req.body;
+    let update_sch_query = `UPDATE Schedules
+    SET class_id='${class_id}' ,date='${date}', start_time='${start_time}', end_time='${end_time}', day_of_the_week='${day_of_the_week}', instructor='${instructor}', status='${status}' WHERE schedule_id = ${sch_id};`
+    db.pool.query(update_sch_query, (err, result) => {
+        if (err) throw (err);
+        res.json(result);
+    })
+})
 
 
 // ...

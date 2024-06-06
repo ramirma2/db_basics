@@ -1,11 +1,11 @@
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 function UpdateSchedulePage({classes, scheduleToEdit, instructors, getSchedules}){
-    // const [currClassName, setClassName]=useState(scheduleToEdit.class_name);
-    const [currClassName, setClassName]=useState();
-    const [date, setDate]=useState(scheduleToEdit.date);
-    const [dayOfTheWeek, setDayOfTheWeek]=useState(scheduleToEdit.day_of_the_week);
+    const [currClassName, setClassName]=useState(scheduleToEdit.class_name);
+    const [date, setDate]=useState(scheduleToEdit.date.split('T')[0]);
+    const [dayOfTheWeek, setDayOfTheWeek]=useState(scheduleToEdit.day_of_the_week ? scheduleToEdit.day_of_the_week : "Monday");
     const [startTime, setStartTime]=useState(scheduleToEdit.start_time);
     const [endTime, setEndTime]=useState(scheduleToEdit.end_time);
     const [instructorName, setInstructorName]=useState(scheduleToEdit.instructor);
@@ -76,18 +76,27 @@ function UpdateSchedulePage({classes, scheduleToEdit, instructors, getSchedules}
         <form>
         <label>Class Name:</label>
         <select
-        onChange= {e=> setClassName(e.target.value)}>
+        onChange= {e=> setClassName(e.target.value)}
+        defaultValue={currClassName}>
             {classes.map((clss, i)=> <option>{clss.name}</option>)}
 
         </select>
-        <input type="text" value={currClassName} 
-        onChange={e=> setClassName(e.target.value)} />
+ 
         <label>Date:</label>
         <input type="date" value={date} 
         onChange={e=> setDate(e.target.value)} />
         <label>Day of the Week:</label>
-        <input type="text" value={dayOfTheWeek} 
-        onChange={e=> setDayOfTheWeek(e.target.value)} />
+        <select
+        onChange= {e=> {setDayOfTheWeek(e.target.value)}}
+        defaultValue={dayOfTheWeek}>
+            <option >Monday</option>
+            <option >Tuesday</option>
+            <option >Wednesday</option>
+            <option >Thursday</option>
+            <option >Friday</option>
+            <option >Saturday</option>
+            <option >Sunday</option>
+        </select>
         <label>Start Time:</label>
         <input type="time" value={startTime} 
         onChange={e=> setStartTime(e.target.value)} />
@@ -96,16 +105,18 @@ function UpdateSchedulePage({classes, scheduleToEdit, instructors, getSchedules}
         onChange={e=> setEndTime(e.target.value)} />
         <label>Instructor:</label>
         <select
-        onChange= {e=> setInstructorName(e.target.value)}>
+        onChange= {e=> setInstructorName(e.target.value)}
+        defaultValue={instructorName}>
             {instructors.map((inst, i)=> <option>{inst.preferred_name}</option>)}
 
         </select>
         <label>Class Status:</label>
         <select
-        onChange= {e=> setStatus(e.target.value)}>
-            <option>Open</option>
-            <option>Cancelled</option>
-            <option>Full</option>
+        onChange= {e=> setStatus(e.target.value)}
+        defaultValue={status}>
+            <option>open</option>
+            <option>cancelled</option>
+            <option>full</option>
         </select>
         <button
             onClick={e=>{
