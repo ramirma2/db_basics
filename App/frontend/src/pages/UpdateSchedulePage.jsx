@@ -2,14 +2,14 @@ import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
-function UpdateSchedulePage({classes, scheduleToEdit, instructors, getSchedules}){
-    const [currClassName, setClassName]=useState(scheduleToEdit.class_name);
-    const [date, setDate]=useState(scheduleToEdit.date.split('T')[0]);
-    const [dayOfTheWeek, setDayOfTheWeek]=useState(scheduleToEdit.day_of_the_week ? scheduleToEdit.day_of_the_week : "Monday");
-    const [startTime, setStartTime]=useState(scheduleToEdit.start_time);
-    const [endTime, setEndTime]=useState(scheduleToEdit.end_time);
-    const [instructorName, setInstructorName]=useState(scheduleToEdit.instructor);
-    const [status, setStatus]=useState(scheduleToEdit.status);
+function UpdateSchedulePage({classes, currSchedule, instructors, getSchedules}){
+    const [currClassName, setClassName]=useState(currSchedule.class_name);
+    const [date, setDate]=useState(currSchedule.date.split('T')[0]);
+    const [dayOfTheWeek, setDayOfTheWeek]=useState(currSchedule.day_of_the_week ? currSchedule.day_of_the_week : "Monday");
+    const [startTime, setStartTime]=useState(currSchedule.start_time);
+    const [endTime, setEndTime]=useState(currSchedule.end_time);
+    const [instructorName, setInstructorName]=useState(currSchedule.instructor);
+    const [status, setStatus]=useState(currSchedule.status);
     const history = useNavigate();
 
     const editSchedule = async()=> {
@@ -17,7 +17,7 @@ function UpdateSchedulePage({classes, scheduleToEdit, instructors, getSchedules}
         const class_id = classes.filter((clss, i)=> clss.name == currClassName).map(clss => clss.class_id)
         const updates = {class_id, date, day_of_the_week: dayOfTheWeek, start_time: startTime, end_time: endTime, instructor: instructorName, status}
         try{
-            const url = import.meta.env.VITE_API_URL + `schedules/${scheduleToEdit.schedule_id}`
+            const url = import.meta.env.VITE_API_URL + `schedules/${currSchedule.schedule_id}`
             const response = await axios.put(url, updates);
             if (response.status == 200){
                 alert('Successfully updated schedule')
@@ -115,7 +115,7 @@ function UpdateSchedulePage({classes, scheduleToEdit, instructors, getSchedules}
         onChange= {e=> setStatus(e.target.value)}
         defaultValue={status}>
             <option>open</option>
-            <option>cancelled</option>
+            <option>canceled</option>
             <option>full</option>
         </select>
         <button

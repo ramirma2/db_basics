@@ -1,6 +1,6 @@
 import ScheduledMembersSingle from "./ScheduledMembersSingle";
 
-function ScheduledMembersTable({scheduled_mems}){
+function ScheduledMembersTable({scheduledMembers}){
 
     const scheduled_members=[
         {member_id:124, first_name:'Paul', last_name:'Kim', class_name: 'Strength', date:'2024-05-01', start_time:'6:00am'},
@@ -24,7 +24,7 @@ function ScheduledMembersTable({scheduled_mems}){
                 </tr>
                 </thead>
                 <tbody>
-                    {scheduled_members.map((mem_info, i)=> <ScheduledMembersSingle members_list={mem_info} key={i}/>)}
+                    {scheduledMembers.map((mem_info, i)=> <ScheduledMembersSingle memberInfo={mem_info} key={i}/>)}
                 </tbody>
             </table>
 

@@ -291,6 +291,36 @@ app.put('/schedules/:_id', (req, res) => {
 })
 
 
+//schedule member
+app.post('/members/:_member_id/sign-up-schedules', async(req, res) => {
+    const member_id = req.params._member_id
+    const {schedule_id, members_enrolled} = req.body
+    let post_sch_for_mem_query = `INSERT INTO Sign_up_Schedules(member_id,schedule_id)
+    VALUES ('${member_id}', '${schedule_id}' );`
+    let update_members_enrolled_query = `UPDATE Schedules
+    SET members_enrolled='${members_enrolled + 1}' WHERE schedule_id = ${schedule_id};`
+    db.pool.query(post_sch_for_mem_query, (err, result) => {
+        if(err) throw(err);
+    })
+    db.pool.query(update_members_enrolled_query, (err, result) => {
+        if(err) throw(err);
+    })
+    res.send("Class scheduled!")
+})
+
+//get members enrolled for a class
+app.get('/schedules/:_id/members-enrolled', async(req, res) => {
+    const schedule_id = req.params._id;
+    let get_members_enrolled_query = `SELECT Classes.name AS class_name, Schedules.start_time, Schedules.date, Members.member_id, Members.first_name, Members.last_name
+    FROM Sign_up_Schedules JOIN Schedules ON Sign_up_Schedules.schedule_id = Schedules.schedule_id
+    JOIN Classes ON Classes.class_id = Schedules.class_id 
+    JOIN Members ON Sign_up_Schedules.member_id = Members.member_id AND Schedules.schedule_id = '${schedule_id}';`
+    db.pool.query(get_members_enrolled_query, (err, result) => {
+        if(err) throw(err);
+        res.json(result)
+    })
+})
+
 // ...
 // End Connect DB Activity Code.
 

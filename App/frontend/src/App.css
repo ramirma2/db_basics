@@ -143,8 +143,6 @@ fieldset >label{
   align-self: center;
 }
 
-
-
 form {
   width: 40%;
   margin: auto;
@@ -187,3 +185,23 @@ tr:nth-child(even) {
   background-color: #E6E8EF; 
 }
 
+.class-schedule-info{
+  padding: 20px 50px 15px 50px;
+  margin:auto;
+  margin-top: 200px;
+  width:30%;
+  border:2px solid #E6E8EF;
+  border-radius: 12px 12px 0 0 ;
+  background-color: #0094C6;
+  border-bottom: none;
+  color:white
+}
+.class-schedule-info > h3{
+  font-size: 1.5em;
+}
+
+.class-schedule-form{
+  margin-top:0px;
+  border-radius: 0 0 12px 12px;
+  width: 30%;
+}

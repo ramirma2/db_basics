@@ -27,8 +27,11 @@ function App() {
   const [classes, setClasses] = useState([]);
   const [members, setMembers] = useState([]);
   const[schedules, setSchedules] = useState([]);
+  const [classToSchedule, setClassToSchedule] = useState([]);
+  const [scheduledMembers, setScheduledMembers] = useState([]);
   const [memberToEdit, setMemberToEdit] = useState([]);
   const [scheduleToEdit, setScheduleToEdit] = useState([]);
+  const [currSchedule,setCurrSchedule] =useState([])
 
   const url_main = import.meta.env.VITE_API_URL
 
@@ -100,6 +103,7 @@ const getInstructorClasses = async (instructor_id) => {
   }
 }
 
+
 useEffect(() => {
   getClasses();
   getMembers();
@@ -131,7 +135,9 @@ useEffect(() => {
                                             schedules={schedules} 
                                             getSchedules={getSchedules}
                                             instructors={instructors}
-                                            setScheduleToEdit={setScheduleToEdit}
+                                            setCurrSchedule={setCurrSchedule}
+                                            setClassToSchedule={setClassToSchedule}
+                                            setScheduledMembers={setScheduledMembers}
                                              />} />
         <Route path="/update-class" element={<UpdateClassPage 
                                               classToEdit={classToEdit}
@@ -144,13 +150,18 @@ useEffect(() => {
                                                     instructorToEdit={instructorToEdit}
                                                     getInstructors={getInstructors} />}/>
         <Route path="/update-schedule" element={<UpdateSchedulePage
-                                                    scheduleToEdit={scheduleToEdit}
+                                                    currSchedule={currSchedule}
                                                     getSchedules = {getSchedules}
                                                     instructors={instructors}
                                                     classes={classes} />} />
-        <Route path="/schedule-class" element={<ScheduleClassPage />} />
+        <Route path="/schedule-class" element={<ScheduleClassPage
+                                                    classToSchedule={classToSchedule}
+                                                    members={members}
+                                                    getSchedules={getSchedules} />} />
         <Route path="/member-classes" element={<MemberClassesPage  />} />
-        <Route path="/scheduled-members" element={<ScheduledMembersPage />} />
+        <Route path="/scheduled-members" element={<ScheduledMembersPage
+                                                    currSchedule={currSchedule}
+                                                    scheduledMembers={scheduledMembers} />} />
 
 
       </Routes>

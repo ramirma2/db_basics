@@ -1,7 +1,7 @@
 import ScheduleSingle from './ScheduleSingle';
 
 
-function SchedulesTable({ schedules, onEdit, onDelete }) {
+function SchedulesTable({ schedules, onEdit, onDelete, onScheduleClass, getMembersEnrolled }) {
 
 
     return (
@@ -26,7 +26,9 @@ function SchedulesTable({ schedules, onEdit, onDelete }) {
                 {schedules.map((sch, i) => <ScheduleSingle 
                                                 schedule={sch} 
                                                 key={i} 
-                                                onEdit={onEdit}/>)}
+                                                onEdit={onEdit}
+                                                onScheduleClass={onScheduleClass}
+                                                getMembersEnrolled={getMembersEnrolled}/>)}
             </tbody>
         </table>
 
