@@ -3,7 +3,7 @@ import MembersTable from '../components/members/MembersTable';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function MembersPage({ members, getMembers, setMemberToEdit }) {
+function MembersPage({ members, getMembers, setMember }) {
 
     const history = useNavigate();
     const [firstName, setFirstName] = useState("");
@@ -41,10 +41,15 @@ function MembersPage({ members, getMembers, setMemberToEdit }) {
         getMembers();
     }
 
-    const onEdit = async memberToEdit => {
+    const onSelectMemberUpdate = async memberToEdit => {
         const mem = await getMember(memberToEdit.member_id)
-        setMemberToEdit(mem);
+        setMember(mem);
         history("/update-member")
+    }
+    const onSelectMemberListClasses = async memberToEdit => {
+        const mem = await getMember(memberToEdit.member_id)
+        setMember(mem);
+        history("/member-classes")
     }
 
     const getMember = async (mem_id) => {
@@ -65,7 +70,8 @@ function MembersPage({ members, getMembers, setMemberToEdit }) {
 
                 <MembersTable members={members}
                     onDelete={onDelete}
-                    onEdit={onEdit} />
+                    onSelectMemberUpdate={onSelectMemberUpdate}
+                    onSelectMemberListClasses={onSelectMemberListClasses} />
 
             </div>
 

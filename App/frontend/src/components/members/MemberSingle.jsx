@@ -6,7 +6,7 @@ import { MdOutlineSchedule } from "react-icons/md";
 import { MdFitnessCenter } from "react-icons/md";
 
 
-function MemberSingle({member,onDelete, onEdit}){
+function MemberSingle({member,onDelete, onSelectMemberUpdate, onSelectMemberListClasses}){
     return(
         <tr>
             <td>{member.first_name}</td>
@@ -17,10 +17,10 @@ function MemberSingle({member,onDelete, onEdit}){
             <td>{new Date(member.member_since).toLocaleString().split(',')[0]}</td>
             <td>{new Date(member.membership_exp).toLocaleString().split(',')[0]}</td>
             <td>
-                <Link to="/member-classes" ><MdFitnessCenter/></Link></td>
+                <MdFitnessCenter onClick={()=> onSelectMemberListClasses(member)}/></td>
             <td>
                 <MdEdit
-                onClick={()=> onEdit(member)}/></td>
+                onClick={()=> onSelectMemberUpdate(member)}/></td>
             <td><MdDeleteForever
                 onClick={()=> onDelete(member.member_id)}/></td>
         </tr>

@@ -29,7 +29,7 @@ function App() {
   const[schedules, setSchedules] = useState([]);
   const [classToSchedule, setClassToSchedule] = useState([]);
   const [scheduledMembers, setScheduledMembers] = useState([]);
-  const [memberToEdit, setMemberToEdit] = useState([]);
+  const [currMember, setMember] = useState([]);
   const [scheduleToEdit, setScheduleToEdit] = useState([]);
   const [currSchedule,setCurrSchedule] =useState([])
 
@@ -124,7 +124,7 @@ useEffect(() => {
         <Route path="/members" element={<MembersPage 
                                             members={members}
                                             getMembers={getMembers} 
-                                            setMemberToEdit={setMemberToEdit}/>} />
+                                            setMember={setMember}/>} />
         <Route path="/instructors" element={<InstructorsPage 
                                             instructors={instructors} 
                                             getInstructors={getInstructors}
@@ -143,7 +143,7 @@ useEffect(() => {
                                               classToEdit={classToEdit}
                                               getClasses={getClasses}/>} />
         <Route path="/update-member" element={<UpdateMemberPage
-                                                memberToEdit={memberToEdit} 
+                                                currMember={currMember} 
                                                 getMembers={getMembers}/>} />
         <Route path="/update-instructor" element={<UpdateInstructorPage 
                                                     classes={classes}
@@ -158,7 +158,8 @@ useEffect(() => {
                                                     classToSchedule={classToSchedule}
                                                     members={members}
                                                     getSchedules={getSchedules} />} />
-        <Route path="/member-classes" element={<MemberClassesPage  />} />
+        <Route path="/member-classes" element={<MemberClassesPage
+                                                      currMember={currMember}  />} />
         <Route path="/scheduled-members" element={<ScheduledMembersPage
                                                     currSchedule={currSchedule}
                                                     scheduledMembers={scheduledMembers} />} />

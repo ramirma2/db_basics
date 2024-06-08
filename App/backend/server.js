@@ -321,6 +321,29 @@ app.get('/schedules/:_id/members-enrolled', async(req, res) => {
     })
 })
 
+//get classes enrolled for one memeber
+app.get('/members/:_id/classes', (req, res)=> {
+    const member_id = req.params._id;
+    const read_members_classes_query = `SELECT Schedules.schedule_id, Schedules.date, Schedules.start_time, Schedules.instructor, Classes.name AS class_name
+    FROM Sign_up_Schedules JOIN Members ON Sign_up_Schedules.member_id = Members.member_id
+    JOIN Schedules ON Schedules.schedule_id = Sign_up_Schedules.schedule_id
+    JOIN Classes ON Schedules.class_id = Classes.class_id AND Sign_up_Schedules.member_id = '${member_id}'
+    ORDER BY Schedules.date DESC, Schedules.start_time;`
+    db.pool.query(read_members_classes_query, (err, result)=> {
+        res.json(result)
+    })
+})
+
+//delete sing up
+app.delete('/members/:_id/classes/:schedule_id', (req, res)=> {
+    console.log("here")
+    const member_id = req.params._id;
+    const schedule_id = req.params.schedule_id
+    const read_members_classes_query = `DELETE FROM Sign_up_Schedules WHERE schedule_id = '${schedule_id}' AND member_id='${member_id}';`
+    db.pool.query(read_members_classes_query, (err, result)=> {
+        res.json(result)
+    })
+})
 // ...
 // End Connect DB Activity Code.
 

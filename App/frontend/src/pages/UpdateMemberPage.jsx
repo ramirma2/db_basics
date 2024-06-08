@@ -3,15 +3,15 @@ import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import { MdOutlineEdit } from 'react-icons/md';
 
-function UpdateMemberPage({memberToEdit, getMembers}){
+function UpdateMemberPage({currMember, getMembers}){
 
-    const [firstName, setFirstName]=useState(memberToEdit.first_name);
-    const [lastName, setLastName]=useState(memberToEdit.last_name);
-    const [email, setEmail]=useState(memberToEdit.email);
-    const [phoneNumber, setPhoneNumber]=useState(memberToEdit.phone_number);
-    const [dob, setDOB] = useState(memberToEdit.birthdate.split('T')[0]);
-    const [memberSince, setMemberSince]=useState(memberToEdit.member_since.split('T')[0]);
-    const [memberUntil, setMemberUntil]=useState(memberToEdit.membership_exp.split('T')[0]);
+    const [firstName, setFirstName]=useState(currMember.first_name);
+    const [lastName, setLastName]=useState(currMember.last_name);
+    const [email, setEmail]=useState(currMember.email);
+    const [phoneNumber, setPhoneNumber]=useState(currMember.phone_number);
+    const [dob, setDOB] = useState(currMember.birthdate.split('T')[0]);
+    const [memberSince, setMemberSince]=useState(currMember.member_since.split('T')[0]);
+    const [memberUntil, setMemberUntil]=useState(currMember.membership_exp.split('T')[0]);
 
     const history = useNavigate();
 
@@ -19,7 +19,7 @@ function UpdateMemberPage({memberToEdit, getMembers}){
         if (isInputValid()){
             const updates = { first_name:firstName, last_name:lastName, email:email, phone_number:phoneNumber, birthdate:dob, member_since:memberSince, membership_exp:memberUntil}
             try{
-                const url = import.meta.env.VITE_API_URL + `members/${memberToEdit.member_id}`
+                const url = import.meta.env.VITE_API_URL + `members/${currMember.member_id}`
                 const response = await axios.put(url, updates);
                 if (response.status == 200){
                     alert('Successfully updated member')

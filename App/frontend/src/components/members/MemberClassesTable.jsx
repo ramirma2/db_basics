@@ -1,11 +1,6 @@
 import MemberClassesSingle from "./MemberClassesSingle";
 
-function MemberClassesTable({ member_classes_pending }) {
-
-    const member_classes = [
-        { member_id: 124, first_name: 'Paul', last_name: 'Kim', class_name: 'Strength', instructor: 'Johnny', date: '2024-05-01', start_time: '6:00am' }
-    ]
-
+function MemberClassesTable({ currMember, memberClasses, onDelete }) {
 
 
     return (
@@ -21,8 +16,12 @@ function MemberClassesTable({ member_classes_pending }) {
                     <th>Delete Sign Up</th>
                 </tr>
             </thead>
-            <tbody>
-                {member_classes.map((class_info, i) => <MemberClassesSingle member_classes={class_info} key={i} />)}
+            <tbody>{memberClasses.length == 0 ? null :
+                memberClasses.map((class_info, i) => <MemberClassesSingle 
+                                                        class_info={class_info} 
+                                                        key={i}
+                                                        onDelete={onDelete} />)
+            }
             </tbody>
         </table>
 

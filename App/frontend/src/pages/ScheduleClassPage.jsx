@@ -15,6 +15,7 @@ function ScheduleClassPage({classToSchedule, members, getSchedules}) {
 
     const scheduleMember = async ()=>{
         const data = {schedule_id: classToSchedule.schedule_id, members_enrolled:classToSchedule.members_enrolled };
+        
         const member_id = members.filter((mem, i) => mem.email == member_email).map(mem => mem.member_id);
         try{
             const url = import.meta.env.VITE_API_URL + `members/${member_id}/sign-up-schedules`
@@ -44,6 +45,7 @@ function ScheduleClassPage({classToSchedule, members, getSchedules}) {
                 <label>Select member's email to schedule':</label>
                     <select
                     onChange= {e=> {setMemberEmail(e.target.value)}}>
+                        <option disabled selected value> -- select a member by email -- </option>
                         {members.map((mem, i)=> <option key={i} >{mem.email}</option>)}
 
                     </select>

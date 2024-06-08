@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import ClassesTable from '../components/classes/ClassesTable';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { MdInstallMobile } from 'react-icons/md';
 
 
 function ClassesPage({ classes, setClassToEdit, getClasses }) {
@@ -37,22 +38,39 @@ function ClassesPage({ classes, setClassToEdit, getClasses }) {
     }
 
 
-    const addClass = async () =>{
-        const attributes= {name, duration, capacity, description}
-        try{
-            const url = import.meta.env.VITE_API_URL + 'classes';
-            const response = await axios.post(url, attributes);
-            if(response.status ==200){
-                resetInputs();
-                alert("New Class Added")
-            }else{
-                alert("There was a problem adding your class")
-            }
 
-        }catch(error){
-            console.log('Error adding a new class')
+    const addClass = async () =>{
+        if (isClassUnique(name)){
+
+            const attributes= {name, duration, capacity, description}
+            try{
+                const url = import.meta.env.VITE_API_URL + 'classes';
+                const response = await axios.post(url, attributes);
+                if(response.status ==200){
+                    resetInputs();
+                    alert("New Class Added")
+                }else{
+                    alert("There was a problem adding your class")
+                }
+    
+            }catch(error){
+                console.log('Error adding a new class')
+            }
+            getClasses()
+
         }
-        getClasses()
+        else{
+            alert("There cannot be more than one class with the same name")
+        }
+    }
+
+    const isClassUnique = (class_name) => {
+        for(let one_class in classes){
+            if(classes[one_class].name.toLowerCase() == class_name.toLowerCase()){
+                return false;
+            }
+        }
+        return true;
     }
 
     const resetInputs = () =>{

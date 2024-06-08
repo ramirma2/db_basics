@@ -15,7 +15,9 @@ function UpdateSchedulePage({classes, currSchedule, instructors, getSchedules}){
     const editSchedule = async()=> {
         if (isInputValid()){
         const class_id = classes.filter((clss, i)=> clss.name == currClassName).map(clss => clss.class_id)
-        const updates = {class_id, date, day_of_the_week: dayOfTheWeek, start_time: startTime, end_time: endTime, instructor: instructorName, status}
+        const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const day_of_the_week = weekdays[new Date(date).getDay()];
+        const updates = {class_id, date, day_of_the_week, start_time: startTime, end_time: endTime, instructor: instructorName, status}
         try{
             const url = import.meta.env.VITE_API_URL + `schedules/${currSchedule.schedule_id}`
             const response = await axios.put(url, updates);
@@ -85,18 +87,7 @@ function UpdateSchedulePage({classes, currSchedule, instructors, getSchedules}){
         <label>Date:</label>
         <input type="date" value={date} 
         onChange={e=> setDate(e.target.value)} />
-        <label>Day of the Week:</label>
-        <select
-        onChange= {e=> {setDayOfTheWeek(e.target.value)}}
-        defaultValue={dayOfTheWeek}>
-            <option >Monday</option>
-            <option >Tuesday</option>
-            <option >Wednesday</option>
-            <option >Thursday</option>
-            <option >Friday</option>
-            <option >Saturday</option>
-            <option >Sunday</option>
-        </select>
+
         <label>Start Time:</label>
         <input type="time" value={startTime} 
         onChange={e=> setStartTime(e.target.value)} />

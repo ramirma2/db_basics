@@ -6,13 +6,12 @@ import axios from 'axios';
 function SchedulesPage({ classes, schedules, instructors, getSchedules, setClassToSchedule, setScheduledMembers, setCurrSchedule }) {
 
     const history = useNavigate();
-    const [currClassName, setClassName] = useState(classes[0].name);
+    const [currClassName, setClassName] = useState("-- select a class to schedule --");
     const [ classId, setClassId] = useState();
     const [date, setDate] = useState("");
-    const [dayOfTheWeek, setDayOfTheWeek] = useState("Monday");
     const [startTime, setStartTime] = useState("");
     const [endTime, setEndTime] = useState("");
-    const [instructorName, setInstructorName] = useState(instructors[0].preferred_name);
+    const [instructorName, setInstructorName] = useState("-- select instructor --");
     const [status, setStatus] = useState("");
     const url_main = import.meta.env.VITE_API_URL
 
@@ -41,8 +40,10 @@ function SchedulesPage({ classes, schedules, instructors, getSchedules, setClass
     }
 
     const addSchedule = async () => {
-        const class_id = classes.filter((clss, i)=> clss.name == currClassName).map(clss => clss.class_id)
-        const attributes = {class_id, date, day_of_the_week: dayOfTheWeek, start_time: startTime, end_time: endTime, instructor: instructorName };
+        const class_id = classes.filter((clss, i)=> clss.name == currClassName).map(clss => clss.class_id);
+        const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+        const day_of_the_week = weekdays[new Date(date).getDay()];
+        const attributes = {class_id:class_id[0], date, day_of_the_week, start_time: startTime, end_time: endTime, instructor: instructorName };
         
         try {
             const url = url_main + 'schedules';
@@ -77,12 +78,11 @@ function SchedulesPage({ classes, schedules, instructors, getSchedules, setClass
 
 
     const resetInputs = () => {
-        setClassName('');
+        setClassName("-- select a class to schedule --");
         setDate('');
-        setDayOfTheWeek('');
         setStartTime('');
         setEndTime('');
-        setInstructorName('');
+        setInstructorName("-- select instructor --");
         setStatus('');
     }
 
@@ -104,23 +104,14 @@ function SchedulesPage({ classes, schedules, instructors, getSchedules, setClass
             <label>Class Name:</label>
                 <select
                 onChange= {e=> {setClassName(e.target.value)}}>
+                    <option disabled selected value>-- select a class to schedule --</option>
                     {classes.map((clss, i)=> <option key={i} >{clss.name}</option>)}
 
                 </select>
                 <label>Date:</label>
                 <input type="date" value={date}
                     onChange={e => setDate(e.target.value)} />
-                <label>Day of the Week:</label>
-                <select
-                onChange= {e=> {setDayOfTheWeek(e.target.value)}}>
-                    <option >Monday</option>
-                    <option >Tuesday</option>
-                    <option >Wednesday</option>
-                    <option >Thursday</option>
-                    <option >Friday</option>
-                    <option >Saturday</option>
-                    <option >Sunday</option>
-                </select>
+
                 <label>Start Time:</label>
                 <input type="time" value={startTime}
                     onChange={e => setStartTime(e.target.value)} />
@@ -130,6 +121,7 @@ function SchedulesPage({ classes, schedules, instructors, getSchedules, setClass
                 <label>Instructor:</label>
                 <select
                     onChange={e => setInstructorName(e.target.value)}>
+                     <option disabled selected value> -- select instructor -- </option>
                     {instructors.map((inst, i) => <option key={i}>{inst.preferred_name}</option>)}
                 </select>
                 <button

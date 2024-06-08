@@ -2,7 +2,7 @@ import MemberSingle from "./MemberSingle";
 
 
 
-function MembersTable({ members, onDelete, onEdit }) {
+function MembersTable({ members, onDelete, onSelectMemberUpdate, onSelectMemberListClasses }) {
 
 
     return (
@@ -26,7 +26,8 @@ function MembersTable({ members, onDelete, onEdit }) {
                                          member={mem} 
                                          key={i}
                                          onDelete={onDelete}
-                                         onEdit={onEdit} />)}
+                                         onSelectMemberUpdate={onSelectMemberUpdate} 
+                                         onSelectMemberListClasses={onSelectMemberListClasses}/>)}
             </tbody>
         </table>
     )

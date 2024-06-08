@@ -1,20 +1,19 @@
 
 
-
-import {Link} from 'react-router-dom';
 import { MdDeleteForever } from "react-icons/md";
 
 
-function MemberClassesSingle({member_classes}){
+function MemberClassesSingle({class_info, onDelete}){
     return(
         <tr>
 
-            <td>{member_classes.class_name}</td>
-            <td>{member_classes.instructor}</td>
-            <td>{member_classes.date}</td>
-            <td>{member_classes.start_time}</td>
+            <td>{class_info.class_name}</td>
+            <td>{class_info.instructor}</td>
+            <td>{new Date(class_info.date).toLocaleDateString().split(',')[0]}</td>
+            <td>{class_info.start_time.substring(0, 5)}</td>
 
-            <td><MdDeleteForever/></td>
+            <td><MdDeleteForever
+                    onClick={()=> onDelete(class_info)}/></td>
         </tr>
     )
 }
