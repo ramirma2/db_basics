@@ -1,4 +1,4 @@
-# CS 340 React Starter Guide
+# Strength Studio
 
 <!--
 ## Upgrades for future
