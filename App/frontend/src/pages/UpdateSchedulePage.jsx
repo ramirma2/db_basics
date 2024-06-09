@@ -3,6 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 function UpdateSchedulePage({classes, currSchedule, instructors, getSchedules}){
+
     const [currClassName, setClassName]=useState(currSchedule.class_name);
     const [date, setDate]=useState(currSchedule.date.split('T')[0]);
     const [dayOfTheWeek, setDayOfTheWeek]=useState(currSchedule.day_of_the_week ? currSchedule.day_of_the_week : "Monday");
@@ -17,7 +18,7 @@ function UpdateSchedulePage({classes, currSchedule, instructors, getSchedules}){
         const class_id = classes.filter((clss, i)=> clss.name == currClassName).map(clss => clss.class_id)
         const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
         const day_of_the_week = weekdays[new Date(date).getDay()];
-        const updates = {class_id, date, day_of_the_week, start_time: startTime, end_time: endTime, instructor: instructorName, status}
+        const updates = {class_id, date, day_of_the_week, start_time: startTime, end_time: endTime, instructor: instructorName, status, members_enrolled:currSchedule.members_enrolled}
         try{
             const url = import.meta.env.VITE_API_URL + `schedules/${currSchedule.schedule_id}`
             const response = await axios.put(url, updates);

@@ -34,7 +34,7 @@ function SchedulesPage({ classes, schedules, instructors, getSchedules, setClass
 
     const onScheduleClass = async (scheduleToSchedule ) => {
         const sch = await getSchedule(scheduleToSchedule.schedule_id);
-
+        await getMembersEnrolled(scheduleToSchedule)
         setClassToSchedule(sch[0]);
         history("/schedule-class");
     }
@@ -61,19 +61,24 @@ function SchedulesPage({ classes, schedules, instructors, getSchedules, setClass
         getSchedules();
     }
 
+
     const getMembersEnrolled = async (schedule) => {
         try{
           const url = import.meta.env.VITE_API_URL + `schedules/${schedule.schedule_id}/members-enrolled`;
           const response = await axios.get(url);
           setScheduledMembers(response.data);
-          setCurrSchedule(schedule)
-          history('/scheduled-members')
       
         }catch(error){
           console.log("Error getting the list requested:", error)
         }
         
       }
+
+    const setCurrScheduleForScheduledMemebers = async (schedule) =>{
+        await getMembersEnrolled(schedule)
+        setCurrSchedule(schedule)
+        history('/scheduled-members')
+    }
       
 
 
@@ -95,7 +100,7 @@ function SchedulesPage({ classes, schedules, instructors, getSchedules, setClass
                     schedules={schedules}
                     onEdit={onEdit} 
                     onScheduleClass={onScheduleClass}
-                    getMembersEnrolled={getMembersEnrolled}/>
+                    setCurrScheduleForScheduledMemebers={setCurrScheduleForScheduledMemebers}/>
 
             </div>
 

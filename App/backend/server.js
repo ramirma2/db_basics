@@ -311,7 +311,7 @@ app.post('/members/:_member_id/sign-up-schedules', async(req, res) => {
 //get members enrolled for a class
 app.get('/schedules/:_id/members-enrolled', async(req, res) => {
     const schedule_id = req.params._id;
-    let get_members_enrolled_query = `SELECT Classes.name AS class_name, Schedules.start_time, Schedules.date, Members.member_id, Members.first_name, Members.last_name
+    let get_members_enrolled_query = `SELECT Schedules.schedule_id, Classes.name AS class_name, Schedules.start_time, Schedules.date, Members.member_id, Members.first_name, Members.last_name, Members.email
     FROM Sign_up_Schedules JOIN Schedules ON Sign_up_Schedules.schedule_id = Schedules.schedule_id
     JOIN Classes ON Classes.class_id = Schedules.class_id 
     JOIN Members ON Sign_up_Schedules.member_id = Members.member_id AND Schedules.schedule_id = '${schedule_id}';`
@@ -343,6 +343,7 @@ app.delete('/members/:_id/classes/:schedule_id', (req, res)=> {
     db.pool.query(read_members_classes_query, (err, result)=> {
         res.json(result)
     })
+
 })
 // ...
 // End Connect DB Activity Code.

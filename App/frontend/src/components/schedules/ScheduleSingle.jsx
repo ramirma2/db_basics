@@ -4,7 +4,7 @@ import { MdDeleteForever } from "react-icons/md";
 import { MdAdd } from 'react-icons/md';
 import { MdOutlineList } from "react-icons/md";
 
-function ScheduleSingle({ schedule, onEdit, onScheduleClass, getMembersEnrolled }) {
+function ScheduleSingle({ schedule, onEdit, onScheduleClass, setCurrScheduleForScheduledMemebers }) {
 
     return (
         <tr>
@@ -28,7 +28,7 @@ function ScheduleSingle({ schedule, onEdit, onScheduleClass, getMembersEnrolled 
             }
             </td>
             <td> <MdOutlineList
-                    onClick={()=>getMembersEnrolled(schedule)} /></td>
+                    onClick={()=>setCurrScheduleForScheduledMemebers(schedule)} /></td>
 
         </tr>
     )

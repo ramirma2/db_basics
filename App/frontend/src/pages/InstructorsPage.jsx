@@ -6,6 +6,7 @@ import {useNavigate} from 'react-router-dom';
 function InstructorsPage({instructors, setInstructorToEdit, getInstructors, getInstructorClasses}) {
 
     const history = useNavigate();
+    const [instructorsEmails, setInstructorsEmails] = useState([]);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -39,21 +40,26 @@ function InstructorsPage({instructors, setInstructorToEdit, getInstructors, getI
 
 
     const addInstructor = async () =>{
-        const attributes = {first_name:firstName, last_name:lastName, preferred_name: preferredName, email, phone_number:phoneNumber};
-        try{
-            const url = url_main + 'instructors';
-            const response = await axios.post(url, attributes);
-            if(response.status == 200){
-                resetInputs();
-                alert("Instructor Added");
-            }else{
-                alert("There was a problem adding a new instructor");
-            }
+        const isValid = await validate();
+        if(isValid){
+            const attributes = {first_name:firstName, last_name:lastName, preferred_name: preferredName, email, phone_number:phoneNumber};
+            try{
+                const url = url_main + 'instructors';
+                const response = await axios.post(url, attributes);
+                if(response.status == 200){
+                    resetInputs();
+                    alert("Instructor Added");
+                }else{
+                    alert("There was a problem adding a new instructor");
+                }
 
-        } catch(error){
-            console.log("Error adding a new instructor");
+            } catch(error){
+                console.log("Error adding a new instructor");
+            }
+            getInstructors();
+        }else{
+            alert("All values are required, also, make sure that the email is not already in use")
         }
-        getInstructors();
     }
 
     const resetInputs = ()=> {
@@ -63,6 +69,20 @@ function InstructorsPage({instructors, setInstructorToEdit, getInstructors, getI
         setPhoneNumber('');
         setPreferredName('');
     }
+
+    const validate = async () =>{
+        if (firstName && lastName && email && phoneNumber && preferredName && !instructorsEmails.includes(email)){
+            return true
+        }else{
+            return false
+        }
+    }
+
+    useEffect(() =>{
+        const all_instructors_emails = instructors.map(inst => inst.email);
+        setInstructorsEmails(all_instructors_emails)
+    },[])
+
 
 
 

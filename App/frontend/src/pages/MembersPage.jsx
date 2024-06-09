@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MembersTable from '../components/members/MembersTable';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 function MembersPage({ members, getMembers, setMember }) {
 
     const history = useNavigate();
+    const [membersEmails, setMembersEmails ] = useState([]);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
@@ -16,22 +17,26 @@ function MembersPage({ members, getMembers, setMember }) {
 
 
     const addMember = async () => {
+        const isValid = await validate();
+        if(isValid){
         const attributes = { first_name: firstName, last_name: lastName, email, phone_number: phoneNumber, birthdate: dob, member_since: memberSince, membership_exp: memberUntil }
-
-        try {
-            const url = import.meta.env.VITE_API_URL + 'members';
-            const response = await axios.post(url, attributes);
-            if (response.status == 200) {
-                resetInputs();
-                alert("New Member Added")
-            } else {
-                alert("There was a problem adding this member")
+            try {
+                const url = import.meta.env.VITE_API_URL + 'members';
+                const response = await axios.post(url, attributes);
+                if (response.status == 200) {
+                    resetInputs();
+                    alert("New Member Added")
+                } else {
+                    alert("There was a problem adding this member")
+                }
+    
+            } catch (error) {
+                console.log('Error adding a new member')
             }
-
-        } catch (error) {
-            console.log('Error adding a new member')
+            getMembers()
+        }else{
+            alert("All values are required, also, make sure that the email is not already in use")
         }
-        getMembers()
     }
 
 
@@ -41,11 +46,14 @@ function MembersPage({ members, getMembers, setMember }) {
         getMembers();
     }
 
+
     const onSelectMemberUpdate = async memberToEdit => {
         const mem = await getMember(memberToEdit.member_id)
         setMember(mem);
-        history("/update-member")
+        history("/update-member");
     }
+
+
     const onSelectMemberListClasses = async memberToEdit => {
         const mem = await getMember(memberToEdit.member_id)
         setMember(mem);
@@ -61,6 +69,29 @@ function MembersPage({ members, getMembers, setMember }) {
             console.log("Error getting the member requested:", error)
         }
     }
+
+    const validate = async () =>{
+        if (firstName && lastName && email && phoneNumber && dob && memberSince && memberUntil && !membersEmails.includes(email)){
+            return true
+        }else{
+            return false
+        }
+    }
+
+    const resetInputs = () =>{
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setPhoneNumber('');
+        setDOB('');
+        setMemberSince('');
+        setMemberUntil('');
+    }
+
+    useEffect(() =>{
+        const all_members_emails = members.map(mem => mem.email);
+        setMembersEmails(all_members_emails)
+    },[])
 
 
     return (

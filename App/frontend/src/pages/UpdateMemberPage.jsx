@@ -1,10 +1,11 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 import { MdOutlineEdit } from 'react-icons/md';
 
-function UpdateMemberPage({currMember, getMembers}){
+function UpdateMemberPage({currMember, getMembers, members}){
 
+    const [membersEmails, setMembersEmails ] = useState([]);
     const [firstName, setFirstName]=useState(currMember.first_name);
     const [lastName, setLastName]=useState(currMember.last_name);
     const [email, setEmail]=useState(currMember.email);
@@ -16,65 +17,41 @@ function UpdateMemberPage({currMember, getMembers}){
     const history = useNavigate();
 
     const editMember = async()=> {
-        if (isInputValid()){
-            const updates = { first_name:firstName, last_name:lastName, email:email, phone_number:phoneNumber, birthdate:dob, member_since:memberSince, membership_exp:memberUntil}
-            try{
-                const url = import.meta.env.VITE_API_URL + `members/${currMember.member_id}`
-                const response = await axios.put(url, updates);
-                if (response.status == 200){
-                    alert('Successfully updated member')
-                }else{
-                    alert('The was a problem updating the member requested.')
+        const isValid = await validate();
+        if(isValid){
+                const updates = { first_name:firstName, last_name:lastName, email:email, phone_number:phoneNumber, birthdate:dob, member_since:memberSince, membership_exp:memberUntil}
+                try{
+                    const url = import.meta.env.VITE_API_URL + `members/${currMember.member_id}`
+                    const response = await axios.put(url, updates);
+                    if (response.status == 200){
+                        alert('Successfully updated member')
+                    }else{
+                        alert('The was a problem updating the member requested.')
+                    }
+    
+                }catch(error){
+                    console.log("Error updating the member requested:", error)
                 }
-
-            }catch(error){
-                console.log("Error updating the member requested:", error)
-            }
-            getMembers()
-            history("/members")
+                getMembers()
+                history("/members")
         }else{
-            return  
+            alert("All values are required, also, make sure that the email is not already in use")
         }
     }
 
-
-    const isInputValid = ()=>{
-        if (firstName == ''){
-            showAlert('First name');
-            return false;
-        }
-        if(lastName== ''){
-            showAlert('Last Name')
-            return false;
-        }
-        if(email==''){
-            showAlert('Email');
-            return false;
-        }
-        if(phoneNumber==''){
-            showAlert('Phone number');
-            return false;
-        }
-        if(dob==''){
-            showAlert('Date of Birth');
-            return false;
-        }
-        if(memberSince==''){
-            showAlert('Member Since');
-            return false;
-        }
-        if(memberUntil==''){
-            showAlert('Membership Expires on');
-            return false;
-        }
-        else{
+    const validate = async () =>{
+        if (firstName && lastName && email && phoneNumber && dob && memberSince && memberUntil && !membersEmails.includes(email)){
             return true
+        }else{
+            return false
         }
     }
 
-    const showAlert = (inputValue) =>{
-        alert(`${inputValue} is required`)
-    }
+
+    useEffect(() =>{
+        const all_members_emails = members.map(mem => mem.email).filter(email => email != currMember.email);
+        setMembersEmails(all_members_emails)
+    },[])
 
     return(
         <form>

@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ScheduledMembersPage from './ScheduledMembersPage';
 import axios from 'axios';
 import {useNavigate} from 'react-router-dom';
 
-function ScheduleClassPage({classToSchedule, members, getSchedules}) {
+function ScheduleClassPage({classToSchedule, members, getSchedules, scheduledMembers}) {
+
+    const[schMembersEmails, setSchMembersEmails] = useState([]);
     const [currClassName, setClassName] = useState(classToSchedule.class_name);
     const [date, setDate] = useState(new Date(classToSchedule.date).toLocaleDateString().split(',')[0]);
     const [dayOfTheWeek, setDayOfTheWeek] = useState(classToSchedule.day_of_the_week);
@@ -14,24 +16,45 @@ function ScheduleClassPage({classToSchedule, members, getSchedules}) {
 
 
     const scheduleMember = async ()=>{
-        const data = {schedule_id: classToSchedule.schedule_id, members_enrolled:classToSchedule.members_enrolled };
-        
-        const member_id = members.filter((mem, i) => mem.email == member_email).map(mem => mem.member_id);
-        try{
-            const url = import.meta.env.VITE_API_URL + `members/${member_id}/sign-up-schedules`
-            const response = await axios.post(url, data)
-            if (response.status == 200){
-                alert('Successfully added member to schedule')
-            }else{
-                alert('The was a problem adding member to the schedule requested.')
-            }
-        }catch(error){
-            console.log("Error updating the schedule requested:", error);
+        const isValid = await validate();
+        if(isValid){
 
+            const data = {schedule_id: classToSchedule.schedule_id, members_enrolled:classToSchedule.members_enrolled };
+            
+            const member_id = members.filter((mem, i) => mem.email == member_email).map(mem => mem.member_id);
+            try{
+                const url = import.meta.env.VITE_API_URL + `members/${member_id}/sign-up-schedules`
+                const response = await axios.post(url, data)
+                if (response.status == 200){
+                    alert('Successfully added member to schedule')
+                }else{
+                    alert('The was a problem adding member to the schedule requested.')
+                }
+            }catch(error){
+                console.log("Error updating the schedule requested:", error);
+    
+            }
+            getSchedules()
+            history('/schedules')
         }
-        getSchedules()
-        history('/schedules')
+        else{
+            alert("Either a selection was not made or the selected member is already enrolled in this class")
+            return;
+        }
     }
+
+    const validate = async ( )=> {
+        if(schMembersEmails.includes(member_email) || member_email == undefined)
+            return false;
+        else{
+            return true;
+        }
+    }
+
+    useEffect(() =>{
+        const sch_members_emails = scheduledMembers.map(mem => mem.email);
+        setSchMembersEmails(sch_members_emails)
+    },[])  
 
     return (
         <section>

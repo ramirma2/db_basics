@@ -4,7 +4,9 @@ import Checkbox from '../components/Checkbox';
 import {useNavigate} from 'react-router-dom';
 
 
-function UpdateInstructorPage({classes, instructorToEdit, getInstructors}){
+function UpdateInstructorPage({classes, instructorToEdit, getInstructors, instructors}){
+
+    const [instructorsEmails, setInstructorsEmails] = useState([]);
     const [firstName, setFirstName]=useState(instructorToEdit.first_name);
     const [lastName, setLastName]=useState(instructorToEdit.last_name);
     const [email, setEmail]=useState(instructorToEdit.email);
@@ -16,25 +18,30 @@ function UpdateInstructorPage({classes, instructorToEdit, getInstructors}){
     const history = useNavigate()
 
     const editInstructor = async () =>{
-        const instructor_updates = {first_name:firstName, last_name:lastName, email, phone_number:phoneNumber, preferred_name:preferredName};
-        const classes_to_add = check_for_classes_to_add().map((one_class, i)=> one_class.class_id);
-        const classes_to_delete = check_for_classes_to_del().map((one_class, i)=> one_class.class_id);
-        try {
-            const url = import.meta.env.VITE_API_URL + `instructors/${instructorToEdit.instructor_id}`;
-            const response = await axios.put(url,instructor_updates);
-            if (classes_to_add.length >0) await add_inst_class(classes_to_add);
-            if (classes_to_delete.length >0) await del_inst_class(classes_to_delete);
+        const isValid = await validate();
+        if(isValid){
+            const instructor_updates = {first_name:firstName, last_name:lastName, email, phone_number:phoneNumber, preferred_name:preferredName};
+            const classes_to_add = check_for_classes_to_add().map((one_class, i)=> one_class.class_id);
+            const classes_to_delete = check_for_classes_to_del().map((one_class, i)=> one_class.class_id);
+            try {
+                const url = import.meta.env.VITE_API_URL + `instructors/${instructorToEdit.instructor_id}`;
+                const response = await axios.put(url,instructor_updates);
+                if (classes_to_add.length >0) await add_inst_class(classes_to_add);
+                if (classes_to_delete.length >0) await del_inst_class(classes_to_delete);
 
-            if(response.status == 200){
-                alert('Successfully updated instructor')
-            }else{
-                alert('There was a problem updating the instructor requested')
+                if(response.status == 200){
+                    alert('Successfully updated instructor')
+                }else{
+                    alert('There was a problem updating the instructor requested')
+                }
+            }catch(error){
+                console.log("Error updating the instructor requested:", error)
             }
-        }catch(error){
-            console.log("Error updating the instructor requested:", error)
+            getInstructors()
+            history("/instructors");
+        }else{
+            alert("All values are required, also, make sure that the email is not already in use")
         }
-        getInstructors()
-        history("/instructors")
     }
 
     const add_inst_class = async(class_ids) =>{
@@ -90,6 +97,22 @@ function UpdateInstructorPage({classes, instructorToEdit, getInstructors}){
             );
             setCheckedState(updatedCheckedState);
     }
+
+    const validate = async () =>{
+        if (firstName && lastName && email && phoneNumber && preferredName && !instructorsEmails.includes(email)){
+            return true
+        }else{
+            return false
+        }
+    }
+
+    useEffect(() =>{
+        const all_instructors_emails = instructors.map(inst => inst.email).filter(email => email != instructorToEdit.email);;
+        setInstructorsEmails(all_instructors_emails)
+    },[])
+
+
+
 
     return(
         <form>

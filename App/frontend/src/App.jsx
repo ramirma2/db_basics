@@ -144,9 +144,11 @@ useEffect(() => {
                                               getClasses={getClasses}/>} />
         <Route path="/update-member" element={<UpdateMemberPage
                                                 currMember={currMember} 
-                                                getMembers={getMembers}/>} />
+                                                getMembers={getMembers}
+                                                members={members}/>} />
         <Route path="/update-instructor" element={<UpdateInstructorPage 
                                                     classes={classes}
+                                                    instructors={instructors}
                                                     instructorToEdit={instructorToEdit}
                                                     getInstructors={getInstructors} />}/>
         <Route path="/update-schedule" element={<UpdateSchedulePage
@@ -157,6 +159,7 @@ useEffect(() => {
         <Route path="/schedule-class" element={<ScheduleClassPage
                                                     classToSchedule={classToSchedule}
                                                     members={members}
+                                                    scheduledMembers={scheduledMembers}
                                                     getSchedules={getSchedules} />} />
         <Route path="/member-classes" element={<MemberClassesPage
                                                       currMember={currMember}  />} />

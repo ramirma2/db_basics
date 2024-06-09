@@ -10,7 +10,7 @@ function ClassesPage({ classes, setClassToEdit, getClasses }) {
     const history = useNavigate();
     const [name, setName] = useState("");
     const [duration, setDuration] = useState("");
-    const [capacity, setCapacity] = useState("");
+    const [capacity, setCapacity] = useState();
     const [description, setDescription] = useState("");
    
     
@@ -40,7 +40,8 @@ function ClassesPage({ classes, setClassToEdit, getClasses }) {
 
 
     const addClass = async () =>{
-        if (isClassUnique(name)){
+        const isValid = await validate();
+        if (isClassUnique(name) && isValid){
 
             const attributes= {name, duration, capacity, description}
             try{
@@ -60,7 +61,7 @@ function ClassesPage({ classes, setClassToEdit, getClasses }) {
 
         }
         else{
-            alert("There cannot be more than one class with the same name")
+            alert("All fields are requited, also, make sure class name is not already listed")
         }
     }
 
@@ -71,6 +72,14 @@ function ClassesPage({ classes, setClassToEdit, getClasses }) {
             }
         }
         return true;
+    }
+
+    const validate = async () =>{
+        if (name && capacity && duration && description ){
+            return true
+        }else{
+            return false
+        }
     }
 
     const resetInputs = () =>{
@@ -99,7 +108,7 @@ function ClassesPage({ classes, setClassToEdit, getClasses }) {
                 <input type="text" value={duration}
                     onChange={e => setDuration(e.target.value)} />
                 <label>Capacity:</label>
-                <input type="text" value={capacity}
+                <input type="number" min="0" value={capacity}
                     onChange={e => setCapacity(e.target.value)} />
                 <label>Description:</label>
                 <input type="textarea" value={description}

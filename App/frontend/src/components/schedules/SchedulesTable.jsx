@@ -1,7 +1,7 @@
 import ScheduleSingle from './ScheduleSingle';
 
 
-function SchedulesTable({ schedules, onEdit, onDelete, onScheduleClass, getMembersEnrolled }) {
+function SchedulesTable({ schedules, onEdit, onDelete, onScheduleClass, setCurrScheduleForScheduledMemebers }) {
 
 
     return (
@@ -28,7 +28,7 @@ function SchedulesTable({ schedules, onEdit, onDelete, onScheduleClass, getMembe
                                                 key={i} 
                                                 onEdit={onEdit}
                                                 onScheduleClass={onScheduleClass}
-                                                getMembersEnrolled={getMembersEnrolled}/>)}
+                                                setCurrScheduleForScheduledMemebers={setCurrScheduleForScheduledMemebers}/>)}
             </tbody>
         </table>
 
