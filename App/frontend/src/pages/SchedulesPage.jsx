@@ -40,25 +40,30 @@ function SchedulesPage({ classes, schedules, instructors, getSchedules, setClass
     }
 
     const addSchedule = async () => {
-        const class_id = classes.filter((clss, i)=> clss.name == currClassName).map(clss => clss.class_id);
-        const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-        const day_of_the_week = weekdays[new Date(date).getDay()];
-        const attributes = {class_id:class_id[0], date, day_of_the_week, start_time: startTime, end_time: endTime, instructor: instructorName };
-        
-        try {
-            const url = url_main + 'schedules';
-            const response = await axios.post(url, attributes);
-            if (response.status == 200) {
-                resetInputs();
-                alert("Schedule Added");
-            } else {
-                alert("There was a problem adding a new schedule");
-            }
+        const isValid = await validate();
+        if(isValid){
+            const class_id = classes.filter((clss, i)=> clss.name == currClassName).map(clss => clss.class_id);
+            const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+            const day_of_the_week = weekdays[new Date(date).getDay()];
+            const attributes = {class_id:class_id[0], date, day_of_the_week, start_time: startTime, end_time: endTime, instructor: instructorName };
+            
+            try {
+                const url = url_main + 'schedules';
+                const response = await axios.post(url, attributes);
+                if (response.status == 200) {
+                    resetInputs();
+                    alert("Schedule Added");
+                } else {
+                    alert("There was a problem adding a new schedule");
+                }
 
-        } catch (error) {
-            console.log("Error adding a new schedule");
+            } catch (error) {
+                console.log("Error adding a new schedule");
+            }
+            getSchedules();
+        }else{
+            alert("All values are required")
         }
-        getSchedules();
     }
 
 
@@ -89,6 +94,17 @@ function SchedulesPage({ classes, schedules, instructors, getSchedules, setClass
         setEndTime('');
         setInstructorName("-- select instructor --");
         setStatus('');
+    }
+
+    const validate = async () =>{
+        if(currClassName=="-- select a class to schedule --" || instructorName =="-- select instructor --" ) {
+            return false
+        }
+        if ( date && startTime && endTime){
+            return true
+        }else{
+            return false
+        }
     }
 
     return (
