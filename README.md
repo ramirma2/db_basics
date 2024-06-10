@@ -19,5 +19,5 @@
 A React.js, Node/Express, and MySQL project with a ui to facilitate CRUD functionalities on a backend database.
 
 ## Citations:
-All code is based on the CS 340 starter code, with the exception of the css.
+All code is based on the CS 340 starter code, with the exception of css and separate react components.
 
