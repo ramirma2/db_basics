@@ -28,7 +28,7 @@ Added some additional logic to adapt this to our needs in handeling dynamic cont
 source url : https://www.freecodecamp.org/news/how-to-work-with-multiple-checkboxes-in-react/
 
 Citation to set a select default 'blank' option in fronted/components/SchedulesPage (lines 152, 135) and frontend/components/ScheduleClassPage (line 75)
-Date 06/07/2024
+Date 06/07/2024 <br/>
 Adapted from stack overflow , author: Michael Haddad
 source url: https://stackoverflow.com/questions/8605516/set-the-select-option-as-blank-as-default-in-html-select-element
 
