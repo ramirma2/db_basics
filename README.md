@@ -17,25 +17,9 @@
 <!-- Dont forget to upgrade the Table of Contents prior to Commits -->
 ## Overview:
 A React.js, Node/Express, and MySQL project with a ui to facilitate CRUD functionalities on a backend database.
+The application's data is managed with a MySQL relational database. The database schema is designed with tables for Members, Instructors, Classes, Schedules, and SignUps. These tables are connected through one-to-many and many-to-many relationships to model the studio's operations.
 
-## Citations:
-All code is based on the CS 340 starter code, with the exception of css and separate react components.
 
-Citation to handle multiple checkboxes in one group in frontend/components/UpdateInstructorPage(lines 18-20, 93-101) <br/>
-Date: 05/29/2024 <br/>
-Adapted from freecodecamp's React Tutorial- How to work with multiple checkboxes <br/>
-Added some additional logic to adapt this to our needs in handeling dynamic content <br/>
-source url : https://www.freecodecamp.org/news/how-to-work-with-multiple-checkboxes-in-react/
-<br/>
-Citation to set a select default 'blank' option in fronted/components/SchedulesPage (lines 152, 135) and frontend/components/ScheduleClassPage (line 75) <br/>
-Date 06/07/2024 <br/>
-Adapted from stack overflow , author: Michael Haddad <br/>
-source url: https://stackoverflow.com/questions/8605516/set-the-select-option-as-blank-as-default-in-html-select-element
-<br/>
-Citation to get the day of the week from a Date object in frontend/components/SchedulesPage (lines 56-57) <br/>
-Date 06/07/24 <br/>
-Copied from W3 schools <br/>
-source url: https://www.w3schools.com/jsref/jsref_getday.asp
 
 
 
